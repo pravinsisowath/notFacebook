@@ -1,0 +1,25 @@
+#wrapper{
+    display: grid;
+    grid-template-areas: 
+    "nav"
+    "signup";
+}
+
+.signinForm{
+    grid-area: nav ;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "logo signin";
+}
+
+.logo
+{
+    grid-area: logo;
+}
+
+.signin{
+    grid-area: signin;
+}
+
+.signupForm{
+    grid-area: signup;
+}
