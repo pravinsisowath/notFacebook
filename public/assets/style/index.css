@@ -39,7 +39,6 @@
 @media screen and (max-width: 600px) {
   .signin {
     background-color: tomato;
-
     display: grid;
   }
   .signin input {
