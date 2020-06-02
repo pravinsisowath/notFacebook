@@ -3,37 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assests/style/index.css">
-    <title>Document</title>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <title>NotFaceBook-Front-Page</title>
 </head>
 <body>
-    
-    <div id="Wrapper">
-        <nav class="signinForm">
-            <h3 class="logo">NotFaceBook</h3>
-            <form class='signin'>
-                <input id="username" name="username" type="text" placeholder="Username">
-                <input id="password" name="password" type="text" placeholder="Password">
-                <input id="submit-btn" name="submit" type="submit">
-            </form>
-        </nav>
 
-      
-            <form class='signupForm'>
-                <input id="su-username" name="su-username" type="text" placeholder="Username">
-                <input id="firstName" name="firstName" type="text" placeholder="First Name">
-                <input id="lastName" name="lastName" type="text" placeholder="Last Name">
-                <input id="email" name="email" type="text" placeholder="Email">
-                <input id="age" name="age" type="text" placeholder="Age">
-                <input id="firstName" name="firstName" type="text" placeholder="First Name">
-                <label for="female">Female</label>
-                <input type="checkbox" id="female" name="Female" value="Female">
-                <label for="male">Male</label>
-                <input type="checkbox" id="male" name="Male" value="Male">
-                <input id="submit-btn" name="submit" type="submit">
-            </form>
-        
-    </div>
+    <div id="container">
+            
+            <!-- Header / Signin form -->
+            <header class ="header">
+                <form id='signin'  name="signin"> 
+                    <img class="logo" src="assets/Image/no-facebook.png" alt="NotFaceBook"> 
+                    <ul class="input">      
+                    <input id="username" name="username" type="text" placeholder="Username">
+                           
+                    <input id="password" name="password" type="password" placeholder="Password">
+                            
+                    <input id="signin-btn" name="submit" type="submit" value="Sign In">         
+                    <div id="loginError" class="error"></div>  
+                   </ul>
+                  
+                </form>
+                
+            </header>
 
+            
+
+            <!-- Body / Signup form -->
+            <section class="signupForm"> 
+                <h2>Create a New Account</h2>
+                <h4>it's quick and easy !</h4>
+                
+                <form id='signup' name="signup">    
+                    <span id="emailError" class="error"></span> 
+               <li> <input id="firstName" name="firstName" type="text" placeholder="First Name"> </li> 
+               <li>  <input id="lastName" name="lastName" type="text" placeholder="Last Name"> </li> 
+               <li> <input id="email" name="email" type="text" placeholder="Email"> </li> 
+               <li>  <input id="age" name="age" type="text" placeholder="Age"> </li> 
+               <li> <input id="su-username" name="username" type="text" placeholder="Username"> </li> 
+               <li> <input id="su-password" name="password" type="password" placeholder="Password"> </li> 
+               <li> <label for="female">Gender: </label> 
+                    <select id="gender" name="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                      </select>
+               <li> <input id ="signup-btn" name="submit" type="submit" value="Sign Up"> </li> 
+            </form>
+            </section>
+            </div>
+            <!-- Horizontal line -->
+           
+             <!-- Footer -->
+            <footer id="myFooter" class="myFooter"><hr><p>Developers: <span>Alan Lee | Pravin | Hoyeon | Tim</span></p> </footer>
+
+    <!-- Jquery Javascript -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/Script/login.js"></script>
 </body>
 </html>
