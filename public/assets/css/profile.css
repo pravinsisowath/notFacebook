@@ -1,149 +1,437 @@
-* {
-  box-sizing: border-box;
-  color: black;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
+body
+{
+    margin: 0;
+    /* overflow: hidden; */
 }
-
-body {
-  background: #f0f2f5;
-  margin: 0px;
-}
-
-#container {
-  display: grid;
-  grid-template-columns: 20% 60% 20%;
-  grid-auto-rows: repeat(8, 1fr);
-  /* max-width: auto; */
-  gap: 10px;
-  grid-template-areas:
-    "header header header"
-    "nav nav nav"
-    "aside1 main aside2"
-    "aside1 section aside2"
-    "aside1 section aside2"
-    "aside1 . aside2"
-    "aside1 . aside2"
+#container
+{
+    display:grid;
+    /* position: relative; */
+    min-width: 100vh;
+    grid-template-columns: minmax(1fr,2fr) 3fr 1fr;
+    height: 100vh;
+    grid-template-rows: minmax(20%,50%) minmax(50%,80%) 5%;
+    grid-template-areas: 
+    "wrapper1 wrapper1 wrapper1"
+    "wrapper2 wrapper2 wrapper2"
     "footer footer footer";
-  margin-top: 60px;
-  margin-bottom: 60px;
 }
 
-@media screen and (max-width: 760px) {
-  #container {
-    background-color: #fff;
+/* Wrapper 1 */
+#wrapper1
+{
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr;
-    grid-template-areas:
-      "header header header"
-      "aside1 aside2 aside2"
-      "aside1 aside2 aside2"
-      "main main main"
-      "section section section"
-      "footer footer footer";
-    margin-top: 60px;
-    margin-bottom: 60px;
+    grid-area: wrapper1;
+    gap: 10px;
+    min-width: 100vh;
+    /* position: fixed; */
+    position: relative;
+    top: 0;
+    width: 100vw;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: 
+    "nav nav nav"
+    "recentpost postarea friendsList";
+    z-index: 2;
+}
+
+/* Navbar */
+.navBar
+{
+    display: grid;
+    position: relative;
+    grid-area: nav;
+    background-color: rgb(61, 98, 174);
+    grid-template-columns: 1fr 1fr 1fr;
+    padding:10px;
+    grid-template-areas: 
+    "logo title menu";
+}
+
+.logo
+{
+    display: grid;
+    grid-area: logo;
+    position: relative;
+    min-width: 15%;
+    max-width: 15%;
+}
+
+.title
+{
+    grid-area: title;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+}
+
+.menu
+{
+    grid-area: menu;
+    text-align: right;
+}
+/* Recent post */
+.recentpost
+{
+    margin-left: 50%;
+    grid-area: recentpost;
+    /* background-color: white; */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    text-align: center;
+
+    border-bottom: 1px solid rgb(1, 8, 1);
+}
+
+.postarea
+{
+    grid-area: postarea;  
+    margin: 10px;
+}
+
+.textarea 
+{
+    display: grid;
+    width: 90%;
+    min-width:50% ;
+    resize: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition-duration: 1s;
+}
+
+.post
+{
+    display:block;
+    width: 100%;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    
+    background-color: #4267b2;
+    border-color: #29487d;
+    border: 1px solid #ccd0d5;
+
+    outline: 0;
+   
+}
+
+.post:hover
+{
+    transition-duration: 3s;
+    background-image: linear-gradient(rgba(96, 119, 167, 0.767),rgba(213, 220, 230, 0.342));
+}
+
+.post:active
+{
+    
+    background-image: linear-gradient(rgba(96, 119, 167, 0.767),rgba(23, 173, 55, 0.897));
+}
+
+.friendsList
+{
+    margin-right: 50%;
+    grid-area: friendsList;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    text-align: center;
+    border-bottom: 1px solid rgb(1, 8, 1);
+}
+
+/* Wrapper 2 */
+#wrapper2
+{
+    grid-area: wrapper2;
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: 
+    "postlist main friends";
+    z-index: 1;
+}
+
+.postlist
+{
+    grid-area: postlist;
+    height: auto;
+     margin-left: 50%;
+     text-align: center;
+     overflow: scroll;
+}
+
+.userpost button:hover{
+    background-color: #8ea6d66c;
+    border-color: #29487dab;
+    border: 1px solid #ccd0d5;
+}
+
+.postlist::-webkit-scrollbar {
+    display: none;
+}
+
+.main
+{
+    grid-area: main;
+    text-align: center;
+    overflow: scroll;
+    padding: 10px;
+    border-left: 1px solid rgb(1, 8, 1);
+    border-right: 1px solid rgb(1, 8, 1);
+
+}
+
+.main::-webkit-scrollbar {
+    display: none;
+}
+
+.myPost
+{
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid rgb(0, 0, 2);
+    min-height: 30%;
+    min-width: 70%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+
+.commentForm
+{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    right: 0; 
+    border-radius: 10px;
+}
+
+.commentForm input[type='submit']
+{
+   width: 10%;
+   padding: 1%;
+   border-radius: 10px;
+}
+
+.commentForm input[type="text"]
+{
+    outline:0;
+    padding: 1%;
+    width: 85%;
+    border-radius: 10px;
+}
+
+.commentArea 
+{
+    display: grid;
+    height: auto;
+    max-height: 200px;
+    padding: 10px;
+    margin: 0;
+    overflow: auto;
+    text-align: left;
+
+    
+}
+
+.commentArea::-webkit-scrollbar {
+    /* display: none; */
+    width: 5px;
+    height: 8px;
+}
+
+.commentArea::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+    height: 1000px;
   }
-  .aside1 {
-    opacity: 0;
+
+.commentArea::-webkit-scrollbar-thumb {
+    background: rgba(90, 79, 79, 0.342);
+    border-radius: 10px;
   }
-  .aside2 {
-    opacity: 0;
+
+.commentArea::-webkit-scrollbar-track-piece
+{
+    height: 10px;
+}
+
+.friends
+{
+    grid-area: friends;
+    height: auto;
+
+    margin-right: 50%;
+    text-align: center;
+   
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "myFriends addFriends";
+    /* overflow: scroll; */
+}
+
+.myFriends
+{
+    grid-area: myFriends;
+}
+
+.addFriends
+{
+    border-top: 1px solid rgb(1, 8, 1);
+    grid-area: addFriends;
+}
+
+/* .friends::-webkit-scrollbar {
+    display: none;
+} */
+
+/* Footer */
+.myFooter
+{
+    grid-area: footer;
+    border-top: 1px solid rgb(1, 8, 1);
+    text-align: center;
+}
+
+
+/* User Post */
+.userpost
+{
+    padding: 5px;
+}
+
+.userpost button
+{
+    width: 95%;
+    padding: 5px;
+    border: 1px solid rgba(7, 1, 1, 0.233);
+    box-sizing: border-box;
+    outline: 0;
+}
+
+/* Friends */
+
+.user
+{
+    padding: 5px;
+}
+
+.user button
+{
+    width: 95%;
+    padding: 5px;
+    border: 1px solid rgba(7, 1, 1, 0);
+    box-sizing: border-box;
+    outline: 0;
+}
+
+.user button:hover{
+    border-color: #29487dab;
+    border: 1px solid #ccd0d5; 
+    background-color: #8ea6d66c;
+}
+
+
+/* Upload button */
+input[type='file']
+{
+    display: none;
+}
+
+.file{
+    display: grid;
+    width: 5%;
+    height: 30px;
+    color: white;
+    background-color: rgb(13, 77, 102);
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+    background-image: url('/public/assets/Image/icons8-cute-color-50.png');
+    background-repeat: no-repeat;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    left: 0;
+    right: 0;
+}
+
+.file:hover
+{
+    cursor: pointer;
+}
+
+
+
+/* Media query */
+@media screen and (max-width: 812px)
+{
+ 
+   .friends
+  {
+      display: none;
   }
-}
-#container > * {
-  /* background: rgba(44, 8, 143, 0.849); */
-  padding: 0px;
-}
+  .postlist
+  {
+      display: none;
+  }
 
-header {
-  /* background-color: rgb(167, 223, 255); */
-  grid-area: header;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  margin: 0px;
-  /* height: 10px; */
-  display: block;
-}
-.header {
-  background-color: aqua;
-  gap: 10px;
-}
+  .recentpost
+  {
+      display: none;
+  }
 
-textarea {
-  background-color: #e4e6e9;
-}
+  .user
+  {
+      display: none;
+  }
 
-main {
-  grid-area: main;
-  text-align: left;
-}
-main form {
-  position: sticky;
-  top: 5%;
-  justify-self: center;
-  align-self: center;
-  display: grid;
-  background-color: white;
-}
 
-.choices {
-  grid-area: section;
-  background-color: #ffffff;
-  /* width: 90%; */
-}
 
-.choices li {
-  list-style-type: none;
+  .main
+  {
+      border-left: none;
+      border-right: none;
+      /* padding: 0; */
+  }
+ 
+ #container
+{
+    grid-template-rows: 1fr 3fr 1fr;
+    grid-template-areas: 
+    "wrapper1 wrapper1 wrapper1"
+    "wrapper2 wrapper2 wrapper2"
+    "footer footer footer";
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+} 
+
+   #wrapper2
+{
+    grid-area: wrapper2;
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+} 
+
+ /* #wrapper1
+{display: none;}
+
+.myFooter
+{
+    display: none;
+}  */
 
 }
-
-.btn {
-  margin: 5px;
-  width: 100%;
-  text-align: left;
-}
-
-.rules {
-  grid-area: rules;
-  background-color: #ffffff;
-  text-align: left;
-}
-
-.rules p {
-  text-align: left;
-}
-
-.aside1 {
-  float: left;
-  position: fixed;
-  grid-area: aside1;
-  background-color: #ffffff;
-  width: 20%;
-}
-
-.aside2 {
-  float: right;
-  position: fixed;
-  right: 0px;
-  grid-area: aside2;
-  background-color: #ffffff;
-  text-align: left;
-  width: 18.5%;
-}
-
-.aside2 > * {
-  text-align: left;
-}
-
-#myFooter {
-  width: 100%;
-  bottom: 0;
-  margin-bottom: 5%;
-}
-#myFooter p,
-span {
-  color: black;
-}
-
