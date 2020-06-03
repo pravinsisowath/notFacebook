@@ -7,12 +7,12 @@
 
 body {
   background: #f0f2f5;
-  margin: 10px;
+  margin: 0px;
 }
 
 #container {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 20% 60% 20%;
   grid-auto-rows: repeat(8, 1fr);
   /* max-width: auto; */
   gap: 10px;
@@ -44,20 +44,31 @@ body {
     margin-bottom: 60px;
   }
 } */
+  .aside1 {
+    opacity: 0;
+  }
+  .aside2 {
+    opacity: 0;
+  }
+
 #container > * {
   /* background: rgba(44, 8, 143, 0.849); */
-  padding: 30px;
+  padding: 0px;
 }
 
 header {
-  background-color: rgb(167, 223, 255);
+  /* background-color: rgb(167, 223, 255); */
   grid-area: header;
   position: fixed;
   top: 0;
   width: 100%;
-  margin: -10px;
-  height: 10px;
+  margin: 0px;
+  /* height: 10px; */
   display: block;
+}
+.header {
+  background-color: aqua;
+  gap: 10px;
 }
 
 textarea {
@@ -67,16 +78,27 @@ textarea {
 main {
   grid-area: post;
   background-color: #ffffff;
+  grid-area: main;
   text-align: left;
+}
+main form {
+  position: sticky;
+  top: 5%;
+  justify-self: center;
+  align-self: center;
+  display: grid;
+  background-color: white;
 }
 
 .choices {
   grid-area: section;
   background-color: #ffffff;
+  /* width: 90%; */
 }
 
 .choices li {
   list-style-type: none;
+
 }
 
 .btn {
@@ -91,16 +113,7 @@ main {
   text-align: left;
 }
 
-.
 
-  /* grid-template-areas:
-    "header header header"
-    "title1 main title2"
-    "aside1 main aside2"
-    "aside1 main aside2"
-    "aside1 main aside2"
-    "aside1 main aside2"
-    "footer footer footer"; */
 
 .aside1 {
   /* display: inline-block; */
@@ -108,15 +121,17 @@ main {
   position: fixed;
   grid-area: aside1;
   background-color: #ffffff;
+  width: 20%;
 }
 
 .aside2 {
   float: right;
   position: fixed;
-  right: 10px;
+  right: 0px;
   grid-area: aside2;
   background-color: #ffffff;
   text-align: left;
+  width: 18.5%;
 }
 
 .aside2 > * {
@@ -132,3 +147,4 @@ main {
 span {
   color: black;
 }
+
