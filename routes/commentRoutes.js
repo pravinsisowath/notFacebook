@@ -11,14 +11,8 @@ router.get("/comments/:userid/:postid", (req, res) => {
 
 // Add a Post
 router.post("/comments", (req, res) => {
-  // let temp = req.body
-  // let url = req.body.image
-  // console.log(req.body.image)
-  // let imageData = fs.readFileSync(url)
   Comment.create(req.body)
     .then((data) => {
-      // console.log(data.image)
-      // fs.writeFileSync(url,'utf8', data.image)
       res.sendStatus(200);
     })
     .catch((err) => console.error(err));

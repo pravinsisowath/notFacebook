@@ -3,15 +3,24 @@ const sequelize = require('../connection')
 
 class Comment extends Model { }
 
-Comment.init({
+Comment.init(
+  {
     title: {
-    type: DataTypes.STRING,
-    allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    postUuid: {
+      type: DataTypes.UUID
+    },
+    userUuid: {
+      type: DataTypes.UUID
+    },
+    image: {
+      type: DataTypes.BLOB,
+      allowNull: true,
+    },
   },
-   image: {
-    type: DataTypes.BLOB,
-    allowNull: true
-  }
-}, { sequelize, modelName: 'comment' })
+  { sequelize, modelName: "comment" }
+);
 
 module.exports = Comment

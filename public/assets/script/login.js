@@ -1,10 +1,24 @@
+let user = null
 
-const socket = io()
+if (!document.cookie.split("=")[1]) {
+    console.log('not signed in')
+}   else {
+    axios.get(`/api/users/${document.cookie.split("=")[1]}`)
+        .then(({data}) => {
+            user = data
+            document.getElementById('header').innerHTML = `
+            ${user.firstName} ${user.lastName}
+            `
+        })
+        .catch(err => console.log(err))
+}
 
-socket.on('onUpdate', message=>
-{
-    console.log("There is a new update")
-})
+// const socket = io()
+
+// socket.on('onUpdate', message=>
+// {
+//     console.log("There is a new update")
+// })
 
 // socket.on('Update', message=>
 // {
@@ -17,7 +31,12 @@ document.getElementById('signin').addEventListener('submit', event =>
     axios.get(`/api/users/${event.target.username.value}/${event.target.password.value}`)
     .then(({data}) => {
         if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
-        else{sessionSet(data)}
+        else{
+            
+            console.log(event.target.username.value)
+            sessionSet(data)
+            console.log(data)
+        }
     })
     .catch(err => console.error(err))
 })

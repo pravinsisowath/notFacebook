@@ -3,15 +3,21 @@ const sequelize = require('../connection')
 
 class Post extends Model { }
 
-Post.init({
+Post.init(
+  {
     body: {
-    type: DataTypes.STRING,
-    allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    image: {
+      type: DataTypes.BLOB("long"),
+      allowNull: true,
+    },
+    userUuid: {
+      type: DataTypes.UUID,
+    },
   },
-   image: {
-    type: DataTypes.BLOB('long') ,
-    allowNull: true
-  }
-}, { sequelize, modelName: 'post' })
+  { sequelize, modelName: "post" }
+);
 
 module.exports = Post
