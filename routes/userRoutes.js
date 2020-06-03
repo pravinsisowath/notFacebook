@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User } = require('../models')
+const { User, Post, Comment } = require('../models')
 
 // Find all users
 router.get('/users', (req, res) => {
@@ -13,6 +13,11 @@ router.get('/users/:username/:password', (req, res) => {
     User.findOne({ where : {username: req.params.username, password : req.params.password }})
     .then(data => res.json(data.dataValues.uuid))
     .catch(err => console.error(err))
+})
+
+// Gets posts from user
+router.get('/users/:userid', (req, res) => {
+    Post.findAll({where : {userUuid : req.params.userid},include : [ Comment ]})
 })
 
 // Add a user
