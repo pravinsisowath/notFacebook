@@ -18,17 +18,16 @@ body {
   gap: 10px;
   grid-template-areas:
     "header header header"
-    "nav nav nav"
+    "title1 post title2"
     "aside1 main aside2"
-    "aside1 section aside2"
-    "aside1 section aside2"
-    "aside1 . aside2"
-    "aside1 . aside2"
+    "aside1 main aside2"
+    "aside1 main aside2"
+    "aside1 main aside2"
     "footer footer footer";
   margin-top: 60px;
   margin-bottom: 60px;
 }
-
+/* 
 @media screen and (max-width: 760px) {
   #container {
     background-color: #fff;
@@ -44,7 +43,7 @@ body {
     margin-top: 60px;
     margin-bottom: 60px;
   }
-}
+} */
 #container > * {
   /* background: rgba(44, 8, 143, 0.849); */
   padding: 30px;
@@ -66,7 +65,7 @@ textarea {
 }
 
 main {
-  grid-area: main;
+  grid-area: post;
   background-color: #ffffff;
   text-align: left;
 }
@@ -92,12 +91,20 @@ main {
   text-align: left;
 }
 
-.rules p {
-  text-align: left;
-}
+.
+
+  /* grid-template-areas:
+    "header header header"
+    "title1 main title2"
+    "aside1 main aside2"
+    "aside1 main aside2"
+    "aside1 main aside2"
+    "aside1 main aside2"
+    "footer footer footer"; */
 
 .aside1 {
-  float: left;
+  /* display: inline-block; */
+  /* float: left; */
   position: fixed;
   grid-area: aside1;
   background-color: #ffffff;
