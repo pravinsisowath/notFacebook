@@ -12,7 +12,6 @@
 80e4351a-fc40-4aef-ac85-f49250197cfc
 
 {
-	"title" : "user 1",
-	"image" : "null",
-	"uuidPost" : "01d84e5d-574f-471f-8445-21d2accd5671"
+	"body" : "this might be our first post yay",
+	"userUuid" : "7358805e-27f0-45c3-90a2-7f1a11611bfe"
 }

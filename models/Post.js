@@ -4,7 +4,7 @@ const sequelize = require('../connection')
 class Post extends Model { }
 
 Post.init({
-    title: {
+    body: {
     type: DataTypes.STRING,
     allowNull: false
   },

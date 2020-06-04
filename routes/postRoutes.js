@@ -1,17 +1,18 @@
 const router = require('express').Router()
 let fs = require('fs')
-const { User, Post } = require('../models')
+const { User, Post, Comment} = require('../models')
 
 // Find all posts
 router.get('/posts', (req, res) => {
-    Post.findAll()
+    Post.findAll({include : [Comment]})
     .then(data => res.json(data))
     .catch(err => console.error(err))
 })
 
 // Get a post
 router.get('/posts/:id', (req, res) => {
-    User.findOne({ where : {uuid: req.params.id}, include : [Post] })
+    Post.findOne({ where : {id : req.params.id}, include : [Comment] })
+    // User.findOne({ where : {}})
     .then(data => res.json(data))
     .catch(err => console.error(err))
 })
