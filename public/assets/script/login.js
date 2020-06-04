@@ -1,10 +1,10 @@
 
-const socket = io()
+// const socket = io()
 
-socket.on('onUpdate', message=>
-{
-    console.log("There is a new update")
-})
+// socket.on('onUpdate', message=>
+// {
+//     console.log("There is a new update")
+// })
 
 // socket.on('Update', message=>
 // {
@@ -17,7 +17,9 @@ document.getElementById('signin').addEventListener('submit', event =>
     axios.get(`/api/users/${event.target.username.value}/${event.target.password.value}`)
     .then(({data}) => {
         if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
-        else{sessionSet(data)}
+        else{
+            sessionSet(data)
+        }
     })
     .catch(err => console.error(err))
 })
@@ -41,11 +43,20 @@ document.getElementById('signup').addEventListener('submit', event =>
     axios.post('/api/users/',newUser)
     .then( data => console.log(data))
     .catch(err => console.log(err))
+    document.getElementById("signupForm").innerHTML = `
+    <h1>Success!</h1>
+    `
+    document.getElementById('signupForm').classList.add("signupSuccess")
+    setTimeout(() => {
+        window.location.href="./profile.html"    
+    }, 2000);
     }
     else{
         console.log("Error")
+        document.getElementById("invalid").innerText = `Invalid! Please try again.`
     }
 })
+
 
 
 document.getElementById('email').addEventListener('keyup', event =>
