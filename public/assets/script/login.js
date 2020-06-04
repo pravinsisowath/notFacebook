@@ -33,9 +33,9 @@ document.getElementById('signin').addEventListener('submit', event =>
         if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
         else{
             
-            console.log(event.target.username.value)
+            // console.log(event.target.username.value)
             sessionSet(data)
-            console.log(data)
+            // console.log(data)
         }
     })
     .catch(err => console.error(err))
