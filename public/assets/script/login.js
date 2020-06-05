@@ -1,19 +1,6 @@
-let user = null
-
-if (!document.cookie.split("=")[1]) {
-    console.log('not signed in')
-}   else {
-    axios.get(`/api/users/${document.cookie.split("=")[1]}`)
-        .then(({data}) => {
-            user = data
-            document.getElementById('header').innerHTML = `
-            ${user.firstName} ${user.lastName}
-            `
-        })
-        .catch(err => console.log(err))
-}
-
 // const socket = io()
+
+// write online status 
 
 // socket.on('onUpdate', message=>
 // {
@@ -32,10 +19,7 @@ document.getElementById('signin').addEventListener('submit', event =>
     .then(({data}) => {
         if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
         else{
-            
-            // console.log(event.target.username.value)
             sessionSet(data)
-            // console.log(data)
         }
     })
     .catch(err => console.error(err))
