@@ -1,17 +1,45 @@
+
+-- Login 
+/api/users/:password/:username/login
 {
-	"username" : "user 1",
-	"password" : "123123",
-	"firstName" : "Tim",
-	"lastName" : "N",
+	"username" : "#",
+	"password" : '#'
+}
+
+-- Get user info
+/api/users/info/:password/:uuid 
+
+-- Add new user/register syntax
+/api/users/register
+{
+	"username" : "SlimJim",
+	"password" : "123",
+	"firstName" : "Slim",
+	"lastName" : "Jim",
 	"age" : 25,
-	"email" : "213@gmail.com",
+	"email" : "SlimJim@gmail.com",
 	"gender" : "male",
 	"activated": 0
 }
 
-80e4351a-fc40-4aef-ac85-f49250197cfc
-
+-- Update user info
+/api/users/update/:password/:uuid
 {
-	"body" : "this might be our first post yay",
-	"userUuid" : "7358805e-27f0-45c3-90a2-7f1a11611bfe"
+	"username" : "#",
+	"password" : "#",
+	"firstName" : "#",
+	"lastName" : "#",
+	"age" : #,
+	"email" : "#@#.#",
+	"gender" : "male",
+	"activated": #
 }
+
+-- Delete account
+/api/users/delete/:password/:uuid
+
+-- Unfriend syntax - requires 2 params userUuid and friendUuid
+{
+	"userUuid" : "provide user 1 uuid",
+	"friendUuid" : "provide user 2 uuid"
+} 
