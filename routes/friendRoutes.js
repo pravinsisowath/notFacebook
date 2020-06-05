@@ -1,32 +1,3 @@
-<<<<<<< HEAD
-const router = require("express").Router();
-const { User, Post, Comment, Friends } = require("../models");
-
-// Add a friend
-router.post("/friends", (req, res) => {
-  Friends.create(req.body)
-    .then((data) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => console.error(err));
-});
-
-// Delete a friend
-router.delete("/friends/:id1/:id2", (req, res) => {
-  Friends.destroy({
-    where: {
-      [Op.or]: [
-        { user1id: req.params.id1, user2id: req.params.id2 },
-        { user1id: req.params.id2, user2id: req.params.id1 },
-      ],
-    },
-  })
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-});
-
-module.exports = router;
-=======
 const { join } = require("path");
 const router = require("express").Router();
 const Sequelize = require('sequelize')
@@ -111,4 +82,3 @@ function deleteRequest(requester,requestee)
 }
 
 module.exports = router;
->>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5

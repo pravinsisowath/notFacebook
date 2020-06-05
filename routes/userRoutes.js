@@ -1,45 +1,3 @@
-<<<<<<< HEAD
-const router = require("express").Router();
-const { User, Post, Comment, Friends } = require("../models");
-
-// Find all users
-router.get("/users", (req, res) => {
-  User.findAll()
-    .then((data) => res.json(data))
-    .catch((err) => console.error(err));
-});
-
-// User Login
-router.get("/users/:username/:password", (req, res) => {
-  User.findOne({
-    where: { username: req.params.username, password: req.params.password },
-  })
-    .then((data) => res.json(data.dataValues.uuid))
-    .catch((err) => console.error(err));
-});
-
-// Gets all posts from user
-router.get("/users/:uuid", (req, res) => {
-  User.findAll({
-    where: { uuid: req.params.uuid },
-    include: [{ model: Post, include: [{ model: Comment }] },{model: Friends}],
-  })
-    .then((data) => res.json(data))
-    .catch((err) => console.error(err));
-});
-
-// Add a user
-router.post("/users", (req, res) => {
-  console.log("Here");
-  User.create(req.body)
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-});
-
-// Update user info
-router.put("/users/:id", (req, res) => {
-  User.update(req.body, { where: { id: req.params.id } })
-=======
 const router = require('express').Router()
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
@@ -104,20 +62,13 @@ router.post('/users/register', (req, res) =>{
 router.put('/users/update/:password/:uuid', (req,res) =>
 {
     User.update(req.body, { where: {password: req.params.password , id : req.params.uuid }})
->>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5
     .then(() => res.sendStatus(200))
     .catch((err) => console.error(err));
 });
 
-<<<<<<< HEAD
-// Delete a user
-router.delete("/users/:id", (req, res) => {
-  User.update({ activated: 1 }, { where: { id: req.params.id } })
-=======
 // Delete a user requires to 2 fields, password and user id - done (Tim)
 router.delete('/users/delete/:password/:uuid', (req,res) => {
     User.destroy({where : {password: req.params.password, uuid : req.params.uuid}})
->>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5
     .then(() => res.sendStatus(200))
     .catch((err) => console.error(err));
 });

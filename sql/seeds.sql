@@ -22,17 +22,6 @@
 	"activated": 0
 }
 
-<<<<<<< HEAD
-{
-	"body" : "this might be our first post yay",
-	"userUuid" : "7358805e-27f0-45c3-90a2-7f1a11611bfe"
-}
-
-{
-    "user1id": "",
-    "user2id": "",
-}
-=======
 -- Update user info
 /api/users/update/:password/:uuid
 {
@@ -54,4 +43,3 @@
 	"userUuid" : "provide user 1 uuid",
 	"friendUuid" : "provide user 2 uuid"
 } 
->>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5
