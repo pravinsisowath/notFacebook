@@ -2,23 +2,35 @@ const router = require('express').Router()
 let fs = require('fs')
 const { User, Post, Comment} = require('../models')
 
-// Find all posts
-router.get('/posts', (req, res) => {
-    Post.findAll({include : [Comment]})
+// Find all posts - Done (Tim)
+router.get('/posts/findall/:userUuid', (req, res) => {
+
+    User.findOne({ where : {uuid : req.params.userUuid }})
+    .then(()=> 
+    {
+        Post.findAll({include : [Comment]})
     .then(data => res.json(data))
     .catch(err => console.error(err))
+    })
+    .catch(err => console.log(404))
+  
 })
 
-// Get a post
-router.get('/posts/:id', (req, res) => {
-    Post.findOne({ where : {id : req.params.id}, include : [Comment] })
-    // User.findOne({ where : {}})
-    .then(data => res.json(data))
-    .catch(err => console.error(err))
+// Get a post - Done (Tim)
+router.get('/posts/getpost/:postId/:userUuid', (req, res) => {
+    User.findOne({ where : {uuid : req.params.userUuid }})
+    .then(()=> 
+    {
+        Post.findOne({ where : {id : req.params.postId}, include : [Comment] })
+        // User.findOne({ where : {}})
+        .then(data => res.json(data))
+        .catch(err => console.error(404))
+    })
+    .catch(err => console.log(404))
 })
 
-// Add a Post
-router.post('/posts', (req, res) =>{
+// Add a Post - - Inprogress (Working on getting the image work)
+router.post('/posts/addpost', (req, res) =>{
     // let temp = req.body
     // let url = req.body.image
     // console.log(req.body.image)
@@ -31,17 +43,17 @@ router.post('/posts', (req, res) =>{
     .catch(err => console.error(err))
 })
 
-// Update Post info
-router.put('/posts/:id', (req,res) =>
+// Update Post info - Inprogress (Working on getting the image work)
+router.put('/posts/update/:userUuid/:postId', (req,res) =>
 {
-    Post.update(req.body, { where: {id : req.params.id }})
+    Post.update(req.body, { where: { id : req.params.postId }})
     .then(() => res.sendStatus(200))
     .catch(err => console.error(err))
 })
 
-// Delete a Post
-router.delete('/posts/:id', (req,res) => {
-    Post.update({activated: 1}, {where : {id : req.params.id}})
+// Delete a Post - Done (Tim)
+router.delete('/posts/delete/:userUuid/:postId', (req,res) => {
+    Post.destroy({where : {id : req.params.postId , userUuid: req.params.userUuid}})
     .then(() => res.sendStatus(200))
     .catch(err => console.error(err))
 })

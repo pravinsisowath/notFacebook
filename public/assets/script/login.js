@@ -1,23 +1,24 @@
 
-const socket = io()
+// const socket = io()
 
-socket.on('onUpdate', message=>
-{
-    console.log("There is a new update")
-})
-
-// socket.on('Update', message=>
+// socket.on('onUpdate', message=>
 // {
-//     console.log("Update emit " + message)
+//     console.log(message)
 // })
 
+// location.reload()
 document.getElementById('signin').addEventListener('submit', event =>
 {
     event.preventDefault()
-    axios.get(`/api/users/${event.target.username.value}/${event.target.password.value}`)
+    axios.get(`/api/users/${event.target.username.value}/${event.target.password.value}/login`)
     .then(({data}) => {
+
         if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
-        else{sessionSet(data)}
+        else{
+            axios.get('/:succeed')
+            location.reload()
+            sessionSet(data)
+        }
     })
     .catch(err => console.error(err))
 })

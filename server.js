@@ -29,7 +29,10 @@ io.on('connection', socket => {
     {
         io.emit('onUpdate',JSON.stringify({name:'Tim',age:'M'}))
     })
+
+    module.exports = socket
 })
+
 
 // Create a PORT variable equal to whatever port that existed in the enviroment or 3000
 const PORT = process.env.PORT || 3000
@@ -39,6 +42,6 @@ app.use(require('./routes'))
 
 // Create connection (instead of using app.listen, we now can use server.listen and we still can get the same result)
 require('./connection')
-.sync()
+.sync({force:false})
 .then(() => server.listen(PORT, () => console.log('http://localhost:3000')))
 .catch(err => console.error(err))
