@@ -11,8 +11,8 @@ router.get('/users/:username/:password/login', (req, res) => {
 })
 
 // Get all user info - Done (Tim)
-router.get('/users/info/:password/:userid', (req, res) => {
-    User.findAll({ where : {password : req.params.password, uuid : req.params.userid} , 
+router.get('/users/info/:userid', (req, res) => {
+    User.findAll({ where : { uuid : req.params.userid} , 
         include : [       
             {
                 model : Post,
@@ -45,14 +45,14 @@ router.get('/users/info/:password/:userid', (req, res) => {
         let friendRequest = data[0].Requestees
         let aboutUser = {UserInfo : userInfo, UserPost : post, UserFriends : friends, PendingRequest : pendingRequest, FriendRequest: friendRequest}
         console.log(pendingRequest)
-       res.json(aboutUser)  
+       res.json(data)  
     })
     .catch(err => console.error(err))
 })
 
 // Add a user - done (Tim)
 router.post('/users/register', (req, res) =>{
-    User.findOrCreate( {where : { email : req.body.email }, 
+    User.findOrCreate( {where : { email : req.body.email , username : req.body.username}, 
         defaults: req.body })
     .then((data) => (data[data.length -1]? res.sendStatus(200): res.json("Email already existed")))
     .catch(err => console.error(err))

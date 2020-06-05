@@ -1,6 +1,53 @@
 const router = require('express').Router()
 let fs = require('fs')
-const { User, Post, Comment} = require('../models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
+const { User, Post, Comment, Friend} = require('../models')
+
+// Find all posts from a user that is your friend
+// Find all posts - Done (Tim)
+router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
+
+    // Find all users where userUuid equal to uuid
+  User.findAll({ where: { uuid: req.params.userUuid }, include: [{model : User, as : 'friend', attributes : ['firstName','lastName','age','gender','email','uuid']}] })
+  .then(async (data) =>
+  {
+    // Turn data into an array 
+      data = await JSON.parse(JSON.stringify(data[0]))
+        
+    // Now data is an array, we can loop through and filter out an object that we want 
+      data = data.friend.map(val => {return  val.uuid })
+      console.log(data)
+        // res.json(data)
+      Post.findAll({ where: { userUUid : {[Op.in] : data }} })
+      .then( async recentPost => 
+        {
+            let tempList = []
+
+            
+            recentPost = await JSON.parse(JSON.stringify(recentPost))
+
+            recentPost = recentPost.sort((a, b) => {return b - a} )
+            console.log( recentPost)
+            // for(let i = 0; i < recentPost.length; i++)
+            // {
+            //     console.log(tempList.length > 0)
+            //     {
+            //         tempList
+            //     }
+            // }
+            // recentPost = recentPost.map
+            // console.log(recentPost)
+            res.json(recentPost)
+        })
+        .catch(err => console.error(err))
+     // Return data back to user
+    //   res.json(data)
+   
+  })
+  .catch(err=> console.error(err));
+  
+})
 
 // Find all posts - Done (Tim)
 router.get('/posts/findall/:userUuid', (req, res) => {
