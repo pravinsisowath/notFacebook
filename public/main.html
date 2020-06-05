@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- My CSS -->
-    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
     <title>NotFaceBook-Front-Page</title>
 </head>
 <body>
@@ -31,9 +31,9 @@
             
 
             <!-- Body / Signup form -->
-            <section class="signupForm"> 
+            <section id ="signupForm" class="signupForm"> 
                 <h2>Create a New Account</h2>
-                <h4>it's quick and easy !</h4>
+                <h4>It's quick and easy!</h4>
                 
                 <form id='signup' name="signup">    
                     <span id="emailError" class="error"></span> 
@@ -51,6 +51,7 @@
                       </select>
                <li> <input id ="signup-btn" name="submit" type="submit" value="Sign Up"> </li> 
             </form>
+            <section id="invalid"></section>
             </section>
             </div>
             <!-- Horizontal line -->
@@ -62,7 +63,12 @@
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 
+<<<<<<< HEAD:public/index.html
     <script src="/socket.io/socket.io.js"></script>
     <script src="/assets/script/login.js"></script>
+=======
+    <!-- <script src="./socket.io/socket.io.js"></script> -->
+    <script src="./assets/Script/login.js"></script>
+>>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5:public/main.html
 </body>
 </html>

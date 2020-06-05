@@ -1,304 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/assets/css/profile.css">
-  <title>Document</title>
-</head>
-<body>
-  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/profile.css" />
+    <title>Document</title>
+  </head>
+  <body>
     <div id="container">
-
-      <div id="wrapper1"> 
-
+      <div id="wrapper1">
         <nav class="navBar">
-         <img class="logo" src="assets/Image/no-facebook.png" alt="NotFaceBook"> 
-           <div class="title">NotFaceBook</div>
-           <div class="menu">Menu</div>
-           <div id='loggedIn'></div>
-          </nav>
-
+          <img
+            class="logo"
+            src="assets/Image/no-facebook.png"
+            alt="NotFaceBook"
+          />
+          <div class="title">NotFaceBook</div>
+          <div class="dropdown">
+            <li class="dropbtn"></li>
+            <div class="dropdown-content">
+              <a href="#">recentpost</a>
+              <a href="#">friends</a>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="loggedIn" id="loggedIn">
+              <!-- Welcome, user1 <button id="logoutBtn">Logout</button> -->
+            </div>
+          </div>
+        </nav>
         <aside class="recentpost">
           <p>Recent friends post</p>
         </aside>
 
-        <section class="postarea">   
-            <textarea class="textarea" id="" cols="40" rows="3" placeholder="What's in your mind?"></textarea>
-            <input type="file" id="file" accept='image/*'>
-             <label for="file" class='file'></label>   
-            <button class="post" >Post It !</button>
-            
+        <section class="postarea">
+          <textarea
+            class="textarea"
+            id=""
+            cols="40"
+            rows="3"
+            placeholder="What's in your mind?"
+          ></textarea>
+          <input type="file" id="file" accept="image/*" />
+          <label for="file" class="file"></label>
+          <button class="post">Post It !</button>
         </section>
-
-        
 
         <aside class="friendsList">
           <p>
-          <input type="text" name="Search Friend" placeholder="Search Friend">
-  
-        </p> </aside>
-
-        
+            <input
+              type="text"
+              name="Search Friend"
+              placeholder="Search Friend"
+            />
+          </p>
+        </aside>
       </div>
-
 
       <div id="wrapper2">
         <aside class="postlist">
-
-          <!-- New Post from users -->
-          <div class="userpost" data-postid="#" >
-         <button>This is a new post </button>
-        </div>
-
-        <div class="userpost" data-postid="#" >
-          <button>This is a new post </button>
-         </div>
-
-         <div class="userpost" data-postid="#" >
-          <button>This is a new post </button>
-         </div>
-
-         <div class="userpost" data-postid="#" >
-          <button>This is a new post </button>
-         </div>
-
+          <!-- New Post from other users -->
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
+          <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div>
         </aside>
 
         <section class="main">
-
           <div class="myPost">
             <p>User name</p>
             <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
+            <hr />
+            <div class="commentArea">
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
             </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
+
+            <form action="" class="commentForm">
+              <input type="text" placeholder="Add your comment" />
+              <input type="submit" name="Send" value="Send" />
             </form>
           </div>
 
           <div class="myPost">
             <p>User name</p>
             <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
+            <hr />
+            <div class="commentArea">
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
+              <p>Name: <span>This is a comment</span></p>
             </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-
-          
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
-            </form>
-          </div>
-
-          
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr>
-            <div class ="commentArea">
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-              <p>Name: <span>This is a comment</span> </p>
-            </div>
-          
-            <form action="" class='commentForm'>
-              <input type="text" placeholder="Add your comment">
-              <input type="submit" name="Send" value="Send">
+            <form action="" class="commentForm">
+              <input type="text" placeholder="Add your comment" />
+              <input type="submit" name="Send" value="Send" />
             </form>
           </div>
         </section>
 
-
+        <!-- Friends -->
         <aside class="friends">
-
-          <!-- Friends -->
-        
           <section class="myFriends">
-              <div class='user' data-uid="">
-            <button>User 1</button>
-          </div>
-            <div class='user' data-uid="">
-            <button>User 1</button>
-          </div>
-          </section>
-
-          <section class="addFriends">
-            <div>Add new friend</div>
-
-            <div class='user' data-uid="">
-            <button>+</button>
+            <div class="user" data-uid="">
+              <button>User 1</button>
             </div>
-            
-        </section>
-          
-
-
+          </section>
+          <!-- add friend button -->
+          <section class="addFriends">
+            <div>Add new friends</div>
+            <div class="user" data-uid="">
+              <button>+</button>
+            </div>
+          </section>
         </aside>
       </div>
-
-      <footer class="myFooter"><p>Developers: <span>Alan Lee | Pravin | Hoyeon | Tim</span></p></footer>
-
-      <!-- nav       nav        nav
-      recentpost postarea friend
-      -----------------------------
-      postlist     main   friendlist
-      footer       footer  footer   -->
+      <!-- footer -->
+      <footer class="myFooter">
+        <p>Developers: <span>Alan Lee | Pravin | Hoyeon | Tim</span></p>
+      </footer>
     </div>
+<<<<<<< HEAD
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
     <script src="/assets/script/profile.js"></script>
 </body>
+=======
+
+     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <script src="/assets/script/profile.js"></script>
+  </body>
+>>>>>>> 5f809f55e440901f50f6efbf960d456f75e946e5
 </html>
