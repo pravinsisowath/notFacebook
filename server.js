@@ -43,6 +43,6 @@ app.use(require('./routes'))
 
 // Create connection (instead of using app.listen, we now can use server.listen and we still can get the same result)
 require('./connection')
-.sync({force:false})
+.sync({force: false})
 .then(() => server.listen(PORT, () => console.log('http://localhost:3000')))
 .catch(err => console.error(err))

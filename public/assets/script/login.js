@@ -26,7 +26,7 @@ function signIn (val1,val2)
     .then(({data}) => {
         
         
-    if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
+    if(!data){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
     else{
         sessionSet(data)
         window.location.replace('/profile')

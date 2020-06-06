@@ -6,7 +6,7 @@ const { User, Post, Comment } = require('../models')
 // User Login - done (Tim)
 router.get('/users/:username/:password/login', (req, res) => {
     User.findOne({ where : {username: req.params.username, password : req.params.password }})
-    .then(data => (data === null)? res.json('Not Found') : res.json(data.dataValues.uuid))
+    .then(data => (data === null)? res.json(0) : res.json(data.dataValues.uuid))
     .catch(err => console.error(err))
 })
 
@@ -36,7 +36,7 @@ router.get('/users/info/:userid', (req, res) => {
             }
         ] 
     })
-    .then(async data => {
+    .then(async data  => {
         data = await JSON.parse(JSON.stringify(data))
         let userInfo =  {FirstName : data[0].firstName, LastName : data[0].lastName, Age : data[0].age, Email : data[0].email, Gender: data[0].gender}
         let post = data[0].posts
@@ -45,7 +45,8 @@ router.get('/users/info/:userid', (req, res) => {
         let friendRequest = data[0].Requestees
         let aboutUser = {UserInfo : userInfo, UserPost : post, UserFriends : friends, PendingRequest : pendingRequest, FriendRequest: friendRequest}
         console.log(pendingRequest)
-       res.json(data)  
+       res.json(aboutUser)  
+    //    console.log(data)
     })
     .catch(err => console.error(err))
 })
