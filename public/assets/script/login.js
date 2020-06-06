@@ -14,7 +14,7 @@
 document.getElementById('signin').addEventListener('submit', event =>
 {
     event.preventDefault()
-
+    console.log("123123")
     signIn(event.target.username.value, event.target.password.value)
    
 })
@@ -23,9 +23,8 @@ function signIn (val1,val2)
 {
     axios.get(`/api/users/${val1}/${val2}/login`)
     .then(({data}) => {
-        
-        
-    if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
+  
+    if(!data){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
     else{
         sessionSet(data)
         window.location.replace('/profile')
@@ -37,6 +36,7 @@ function signIn (val1,val2)
 document.getElementById('signup').addEventListener('submit', event =>
 {   
     event.preventDefault()
+    console.log("singup")
     if(ValidateEmail(event.target.email.value))
     {
     let newUser = {

@@ -20,6 +20,7 @@ app.use(express.json())
 
 // Start to listening
 io.on('connection', socket => {
+
     socket.emit('onUpdate', "Welcome to NotFaceBook")
 
     //Broadcast when a user connect
@@ -33,6 +34,7 @@ io.on('connection', socket => {
 
     module.exports = socket
 })
+
 
 
 // Create a PORT variable equal to whatever port that existed in the enviroment or 3000
