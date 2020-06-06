@@ -61,14 +61,15 @@ router.get("/friend/findfriend/:userUuid", (req, res) => {
     .catch((err) => console.error(err));
 });
 
-// Add a friend - Done (Time)
+// Add a friend - Done (Tim)
 router.post("/friend/addfriend", (req, res) => {
   Friend.bulkCreate([
-    { userUuid: req.body.requesteeId, friendUuid: req.body.requesterId },
-    { friendUuid: req.body.requesteeId, userUuid: req.body.requesterId },
+    { userUuid: req.body.userUuid, friendUuid: req.body.friendUuid },
+    { friendUuid: req.body.userUuid, userUuid: req.body.friendUuid },
   ])
+    // Friend.create(req.body)
     .then((data) => {
-      deleteRequest(req.body.requesterId, req.body.requesteeId);
+      // deleteRequest(req.body.requesterId, req.body.requesteeId);
       res.sendStatus(200);
     })
     .catch((err) => console.error(err));
