@@ -1,15 +1,7 @@
 
-// const socket = io()
+const socket = io()
 
-// socket.on('onUpdate', message=>
-// {
-//     console.log("There is a new update")
-// })
 
-// socket.on('Update', message=>
-// {
-//     console.log("Update emit " + message)
-// })
 
 document.getElementById('signin').addEventListener('submit', event =>
 {
@@ -50,7 +42,9 @@ document.getElementById('signup').addEventListener('submit', event =>
 	activated : 0
     }
     axios.post('/api/users/register',newUser)
-    .then( data => console.log(data))
+    .then(() => {
+        socket.emit('newUserSignUp', `User ${event.target.firstName.value} ${event.target.lastName.value} has joined NotFaceBook!` )
+    })
     .catch(err => console.log(err))
     document.getElementById("signupForm").innerHTML = `
     <h1>Success!</h1>

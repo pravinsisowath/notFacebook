@@ -67,17 +67,61 @@ router.get('/posts/getpost/:postId/:userUuid', (req, res) => {
 })
 
 // Add a Post - - Inprogress (Working on getting the image work)
-router.post('/posts/addpost', (req, res) =>{
-    // let temp = req.body
-    // let url = req.body.image
-    // console.log(req.body.image)
-    // let imageData = fs.readFileSync(url)
-    Post.create(req.body)
+router.post('/posts/addpost', async (req, res) =>{
+    
+    let id = req.rawHeaders.findIndex((item) => (item === 'Cookie'))
+    id = req.rawHeaders[id + 1].split(/[\=;" "]/)
+
+    let temp 
+    let uuid
+    id.map((val,key) => {
+        if( val === 'name'){ uuid = id[key + 1]}
+        if( val === 'io' ) { 
+            temp = id[key + 1]
+        }
+    })
+    let check = false
+    let postImage
+    let path
+    if(req.files)
+    {
+        postImage = await req.files.postImage
+ 
+       await postImage.mv(`./public/assets/Image/+${temp}+` + postImage.name, async (err) =>
+        {
+            if(err)
+            {
+                console.log('Failed to upload')
+                console.log(err)
+            }
+            else
+            {
+                console.log('sucess to upload')
+               
+            }
+        })    
+        check = true
+        path = `assets/Image/+${temp}+` + postImage.name   
+    }
+    
+        path = ((check)? path : '#')
+     let body = {userUuid: uuid , body: req.body.posttext , image : path  }
+    
+ 
+    Post.create(body)
     .then((data) => {
-        // console.log(data.image)
-        // fs.writeFileSync(url,'utf8', data.image)
-        res.sendStatus(200)})
+        data.dataValues.comments = []
+        // console.log(data.dataValues.comments = [])
+        // res.json(data)
+        User.findOne({ where : { uuid : uuid }, attributes : ['firstName', 'lastName']})
+        .then(({firstName,lastName}) => {
+
+            res.json([{data},{firstName,lastName}])
+        })
+        .catch(err => console.error(err))
+    })
     .catch(err => console.error(err))
+  
 })
 
 // Update Post info - Inprogress (Working on getting the image work)
