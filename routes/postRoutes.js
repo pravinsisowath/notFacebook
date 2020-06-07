@@ -43,26 +43,21 @@ router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
 // Find all posts - Done (Tim)
 router.get('/posts/findall/:userUuid', (req, res) => {
 
-    User.findOne({ where : {uuid : req.params.userUuid }})
-    .then(()=> 
+    Post.findAll({ where : {userUuid : req.params.userUuid }, include : [Comment]})
+    .then((data)=> 
     {
-        Post.findAll({include : [Comment]})
-    .then(data => res.json(data))
-    .catch(err => console.error(err))
+        res.json(data)
     })
     .catch(err => console.log(404))
   
 })
 
 // Get a post - Done (Tim)
-router.get('/posts/getpost/:postId/:userUuid', (req, res) => {
-    User.findOne({ where : {uuid : req.params.userUuid }})
-    .then(()=> 
+router.get('/posts/getpost/:postId', (req, res) => {
+    Post.findOne({ where : {id : req.params.postId }, include : [Comment]})
+    .then((data)=> 
     {
-        Post.findOne({ where : {id : req.params.postId}, include : [Comment] })
-        // User.findOne({ where : {}})
-        .then(data => res.json(data))
-        .catch(err => console.error(404))
+       res.json(data)
     })
     .catch(err => console.log(404))
 })

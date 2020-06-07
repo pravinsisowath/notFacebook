@@ -1,15 +1,3 @@
-const socket = io()
-
-socket.on('newUserSignUp', message =>
-{
-    console.log(message)
-})
-
-
-// const moment = moment()
-console.log('This is TIME')
-console.log(moment().format('l LT'))
-
 
 const logOut = () => {
     console.log('hello')
@@ -24,15 +12,12 @@ const logOut = () => {
 
 function loggedInStatus () {
   if (!document.cookie.split("=")[1]) {
-      console.log("Nothing")
   } else {
-      console.log('Something')
     axios
       .get(`/api/users/info/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
         
           generateRecentPost()
-          console.log(data.UserPost)
           userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName)
         document.getElementById("loggedIn").innerHTML = `
               Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
@@ -45,8 +30,7 @@ function loggedInStatus () {
 }
 
 function userPost(userPost,firstName,lastName)
-{
-  console.log(userPost)
+{ 
     userPost.forEach(post => { 
         // console.log("In userpost")
         // console.log(post)
@@ -61,7 +45,7 @@ function userPost(userPost,firstName,lastName)
 
         $('.main').prepend(
             `  
-            <div class="myPost">
+            <div class="myPost" data-id="${post.id}">
             <h3 class ="username"> ${firstName} ${lastName} : <span class ="postbody">${post.body}</span></h3>
             
             <div class="image"> 
@@ -71,34 +55,29 @@ function userPost(userPost,firstName,lastName)
             <div class="commentArea">
             ${comments}
             </div>
-            <form  method="POST" data-postId="${post.id}"class="commentForm">
+            <form  method="POST" data-postId="${post.id}" class="commentForm">
               <input type="text" placeholder="Add your comment" />
               <input type="submit" name="Send" value="Send" />
             </form>
           </div>`)
             })  
-            
-            var date = new Date();
-            console.log(date)
+          // let allpost = document.querySelectorAll('.myPost')
+          // console.log(allpost[0].dataset.id)
 }
 
 
   // Tim recent friend post
   function generateRecentPost()
   {
-      console.log(`${document.cookie.split("=")[1]}`)
         axios.get(`api/posts/friendrecentposts/${document.cookie.split("=")[1]}`)
         .then( ({data}) =>
             {
-                // console.log(data)
-                // var utcDate = new Date(item.createdAt.toUTCString());
-                // utcDate.setHours(utcDate.getHours());
-                // var usDate = new Date(utcDate);
+
                 data.forEach(item => {
-                    console.log(item.createdAt)
+                    console.log(item)
                     $(".postlist").prepend(
                         `  <div class="userpost" data-postid='${item.id}'>
-                        <button>
+                        <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
                         <p>User:${item.user.firstName}<p>
                         <p> ${item.body.slice(0,20)}... </p>
                         <p>At: ${item.createdAt.split(/[a-zA-Z.]/)[1]} <p>
@@ -111,8 +90,22 @@ function userPost(userPost,firstName,lastName)
         )
         .catch(err => console.error(err))
   }
+// Show post
+function showPost(data,fname,lname)
+{
+  // console.log(fname)
+    axios.get(`api/posts/getpost/${data}`)
+    .then(({data}) => 
+      {
+        $('.main').empty()
+        userPost([data],fname,lname)
+      }
+    )
+    .catch(err => console.error(err))
+}
 
 // Add new post
+let recent = false
 document.getElementById('post').addEventListener('click', event =>
 {
   event.preventDefault()
@@ -122,7 +115,18 @@ document.getElementById('post').addEventListener('click', event =>
   if(document.getElementById('file').value.length > 0 || document.getElementById('posttext').value !== '')
   {
   axios.post('api/posts/addpost', formData)
-  .then(({ data }) => userPost([data[0].data],data[1].firstName,data[1].lastName))
+  .then(({ data }) => {
+    if(!recent)
+    {
+      $('.main').scrollTop(0)
+      userPost([data[0].data],data[1].firstName,data[1].lastName)
+    }
+    else
+    {
+      loggedInStatus()
+    }
+  
+  })
   .catch(err => console.error(err))
   
   // console.log(formData)
@@ -142,15 +146,13 @@ document.getElementById('posttext').focus()
 const renderFriendSuggestion = () => {
 
   if (!document.cookie.split("=")[1]) {
-    console.log("Nothing");
+    console.log("Not logged in");
   } else {
-    console.log("connected");
     axios
       .get(`/api/friend/findfriend/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
         document.getElementById("friendSuggest").innerHTML = "";
         for (let i = 0; i < data.length; i++) {
-          console.log(data[i]);
           let notfriendElem = document.createElement("div");
           notfriendElem.innerHTML = `<button id='add'  onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
           document.getElementById("friendSuggest").append(notfriendElem);
@@ -177,6 +179,21 @@ function addFriend( id ) {
   }
 }
 
+//delete a friend from myfriendList - hoyeon
+function unFriend(id) {
+    axios
+      .delete("api/friend/unfriend", {
+        data: {
+          userUuid: document.cookie.split("=")[1],
+          friendUuid: id,
+        },
+      })
+      .then(() => {
+        renderMyFriends();
+        renderFriendSuggestion();
+      })
+      .catch((err) => console.error(err));
+}
 
 //show all users who are currently friends with me- hoyeon
 const renderMyFriends = () => {
@@ -184,16 +201,19 @@ const renderMyFriends = () => {
   axios.get(`/api/users/info/${document.cookie.split("=")[1]}`)
     .then(({ data }) => {
       let friendData = data.UserFriends;
-      console.log(friendData);
       document.getElementById("friendList").innerHTML = "";
       for (let i = 0; i < friendData.length; i++) {
         let friendElem = document.createElement("div");
-        friendElem.innerHTML = `<button id='myfriend'> ${friendData[i].firstName} ${friendData[i].lastName}</button>`;
+        friendElem.innerHTML = `<div class="friendbox"><button class='myfriend'> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
         document.getElementById("friendList").append(friendElem);
       }
     })
     .catch((err) => console.log(err));
 };
+
+
+// Add comment
+// document.getElementById('')
 
 // const logOut = () => {
 //   console.log("hello");
