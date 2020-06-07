@@ -12,52 +12,6 @@ console.log(moment().format('l LT'))
 
 
 const logOut = () => {
-<<<<<<< HEAD
-  console.log("hello");
-  var date = new Date();
-  var utcDate = new Date(date.toUTCString());
-  utcDate.setHours(utcDate.getHours());
-  var usDate = new Date(utcDate);
-  document.cookie = `name=''; expires = ${usDate.toUTCString()}`;
-  window.location.replace("/");
-};
-
-//show all users who are currently friends with me- hoyeon
-const renderMyFriends = () => {
-  axios
-    .get(`/api/users/info/${document.cookie.split("=")[1]}`)
-    .then(({ data }) => {
-      let friendData = data[0].friend;
-      console.log(friendData);
-      document.getElementById("friendList").innerHTML = "";
-      for (let i = 0; i < friendData.length; i++) {
-        let friendElem = document.createElement("div");
-        friendElem.innerHTML = `<button id='myfriend'> ${friendData[i].firstName} ${friendData[i].lastName}</button>`;
-        document.getElementById("friendList").append(friendElem);
-      }
-    })
-    .catch((err) => console.log(err));
-};
-
-document.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (event.target.id === "add") {
-    axios
-      .post("api/friend/addfriend", {
-        userUuid: document.cookie.split("=")[1],
-        friendUuid: event.target.dataset.item,
-      })
-      .then(() => {
-        renderFriendSuggestion();
-        renderMyFriends();
-      })
-      .catch((err) => console.error(err));
-  }
-});
-
-//show a list of other users who are not friends yet with me - hoyeon
-const renderFriendSuggestion = () => {
-=======
     console.log('hello')
     var date = new Date();
     
@@ -69,56 +23,21 @@ const renderFriendSuggestion = () => {
     }
 
 function loggedInStatus () {
->>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
   if (!document.cookie.split("=")[1]) {
-    console.log("Nothing");
+      console.log("Nothing")
   } else {
-    console.log("connected");
-    axios
-      .get(`/api/friend/findfriend/${document.cookie.split("=")[1]}`)
-      .then(({ data }) => {
-<<<<<<< HEAD
-        document.getElementById("friendSuggest").innerHTML = "";
-        for (let i = 0; i < data.length; i++) {
-          console.log(data[i]);
-          let notfriendElem = document.createElement("div");
-          notfriendElem.innerHTML = `<button id='add' data-item="${data[i].uuid}" > + ${data[i].firstName} ${data[i].lastName}</button>`;
-          document.getElementById("friendSuggest").append(notfriendElem);
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-  renderMyFriends();
-};
-
-const loggedInStatus = () => {
-  if (!document.cookie.split("=")[1]) {
-    console.log("Nothing");
-  } else {
-    console.log("Something");
+      console.log('Something')
     axios
       .get(`/api/users/info/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
-        console.log(data[0]);
-        //Suggestion(hoyeon): how about using an username instaed of first & lastname?
-=======
         
           generateRecentPost()
           console.log(data.UserPost)
           userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName)
->>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
         document.getElementById("loggedIn").innerHTML = `
-              Logged in as ${data[0].firstName} ${data[0].lastName}
+              Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
               `;
-<<<<<<< HEAD
-        recentPost(data.UserPost);
-      })
-      .catch((err) => console.log(err));
-  }
-};
-
-=======
 
       })
       .catch((err) => console.log(err));
@@ -435,14 +354,9 @@ const renderMyFriends = () => {
 // }
 
 
->>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
 function init() {
   loggedInStatus();
   renderFriendSuggestion();
 }
 
-<<<<<<< HEAD
 init();
-=======
-init();
->>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
