@@ -65,6 +65,12 @@ router.delete("/friend/unfriend", (req, res) => {
     .then(() => res.sendStatus(200))
     .catch( err => console.error(err));
 });
+// search friend - ALAN LEE
+router.post("/searchFriend", (req, res) => {
+  User.findAll({ where: { firstName: req.body.firstName } })
+    .then((data) => res.json(data))
+    .catch((err) => console.error(err));
+});
 
 // Friend request
 router.post("/friend/request", (req,res) =>

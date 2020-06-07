@@ -50,13 +50,21 @@ router.get('/users/info/:userid', (req, res) => {
     .catch(err => console.error(err))
 })
 
+
+
 // Add a user - done (Tim)
-router.post('/users/register', (req, res) =>{
-    User.findOrCreate( {where : { email : req.body.email , username : req.body.username}, 
-        defaults: req.body })
-    .then((data) => (data[data.length -1]? res.sendStatus(200): res.json("Email already existed")))
-    .catch(err => console.error(err))
-})
+router.post("/users/register", (req, res) => {
+  User.findOrCreate({
+    where: { email: req.body.email, username: req.body.username },
+    defaults: req.body,
+  })
+    .then((data) =>
+      data[data.length - 1]
+        ? res.sendStatus(200)
+        : res.json("Email already existed")
+    )
+    .catch((err) => console.error(err));
+});
 
 // Update user info requires 2 fields, password and user id - done (Tim)
 router.put('/users/update/:password/:uuid', (req,res) =>

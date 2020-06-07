@@ -42,11 +42,14 @@
       </form>
 
       <aside class="friendsList">
-        <p>
-          <input type="text" name="Search Friend" placeholder="Search Friend" />
-        </p>
+        <form id='searchFriendForm'>
+          <input id='searchFriend' type="text" name="Search Friend" placeholder="Search Friend" />
+          <button type='submit'>Search</button>
+        </form>
+        <div id="friends"></div>
       </aside>
     </div>
+    
 
     <div id="wrapper2">
       <aside class="postlist">
@@ -63,6 +66,7 @@
       </section>
 
       <!-- Friends -->
+      
       <aside class="friends">
         <section class="myFriends">
           <div>My current friends</div>

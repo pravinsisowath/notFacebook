@@ -4,7 +4,20 @@ socket.on('newUserSignUp', message =>
 {
     console.log(message)
 })
-
+$('#searchFriendForm').submit((e) => {
+  e.preventDefault()
+  let friend = document.getElementById('searchFriend').value
+  axios.post('/api/searchFriend', { firstName : friend })
+    .then(({data}) => {
+      document.getElementById('friends').innerHTML = data.reduce((acc, friend) => {
+        acc += `<div>${friend.firstName}<button onclick="addFriend('${friend.uuid}')">Add Friend</button></div>`;
+        return acc
+      }, '')
+      
+    })
+    .catch(err => {console.log(err)})
+  }
+)
 
 // const moment = moment()
 console.log('This is TIME')
@@ -139,7 +152,7 @@ document.getElementById('posttext').focus()
 
 
 // //show a list of other users who are not friends yet with me - hoyeon
-const renderFriendSuggestion = () => {
+function renderFriendSuggestion() {
 
   if (!document.cookie.split("=")[1]) {
     console.log("Nothing");
@@ -152,7 +165,7 @@ const renderFriendSuggestion = () => {
         for (let i = 0; i < data.length; i++) {
           console.log(data[i]);
           let notfriendElem = document.createElement("div");
-          notfriendElem.innerHTML = `<button id='add'  onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
+          notfriendElem.innerHTML = `<button  onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
           document.getElementById("friendSuggest").append(notfriendElem);
         }
       })
@@ -163,7 +176,6 @@ const renderFriendSuggestion = () => {
 
 // let addFriend = document.querySelector('#myfriend')
 function addFriend( id ) {
-  if (event.target.id === "add") {
     axios
       .post("api/friend/addfriend", {
         userUuid: document.cookie.split("=")[1],
@@ -174,12 +186,11 @@ function addFriend( id ) {
         renderMyFriends();
       })
       .catch((err) => console.error(err));
-  }
 }
 
 
 //show all users who are currently friends with me- hoyeon
-const renderMyFriends = () => {
+function renderMyFriends() {
   
   axios.get(`/api/users/info/${document.cookie.split("=")[1]}`)
     .then(({ data }) => {
