@@ -1,44 +1,17 @@
-<<<<<<< HEAD
-const socket = io();
-
-socket.on("newUserSignUp", (message) => {
-  console.log(message);
-});
-
-// const moment = moment()
-console.log("This is TIME");
-console.log(moment().format("l LT"));
-=======
->>>>>>> 72969f329781972833f05512d139f94d756893e7
 
 const logOut = () => {
-  console.log("hello");
-  var date = new Date();
+    console.log('hello')
+    var date = new Date();
+    
+    var utcDate = new Date(date.toUTCString());
+    utcDate.setHours(utcDate.getHours());
+    var usDate = new Date(utcDate);
+    document.cookie = `name=''; expires = ${usDate.toUTCString()}`; 
+    window.location.replace("/");
+    }
 
-  var utcDate = new Date(date.toUTCString());
-  utcDate.setHours(utcDate.getHours());
-  var usDate = new Date(utcDate);
-  document.cookie = `name=''; expires = ${usDate.toUTCString()}`;
-  window.location.replace("/");
-};
-
-function loggedInStatus() {
+function loggedInStatus () {
   if (!document.cookie.split("=")[1]) {
-<<<<<<< HEAD
-    console.log("Nothing");
-  } else {
-    console.log("Something");
-    axios
-      .get(`/api/users/info/${document.cookie.split("=")[1]}`)
-      .then(({ data }) => {
-        generateRecentPost();
-        console.log(data.UserPost);
-        userPost(
-          data.UserPost,
-          data.UserInfo.FirstName,
-          data.UserInfo.LastName
-        );
-=======
   } else {
     axios
       .get(`/api/users/info/${document.cookie.split("=")[1]}`)
@@ -46,32 +19,16 @@ function loggedInStatus() {
         
           generateRecentPost()
           userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName)
->>>>>>> 72969f329781972833f05512d139f94d756893e7
         document.getElementById("loggedIn").innerHTML = `
               Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
               `;
+
       })
       .catch((err) => console.log(err));
   }
 }
 
-<<<<<<< HEAD
-function userPost(userPost, firstName, lastName) {
-  console.log(userPost);
-  userPost.forEach((post) => {
-    // console.log("In userpost")
-    // console.log(post)
-    let comments = post.comments.reduce((allComments, comments) => {
-      return (allComments += ` <p>Name: <span>${comments.title}</span></p>`);
-
-      // console.log(comments)
-    }, "");
-
-    $(".main").prepend(
-      `  
-            <div class="myPost">
-=======
 function userPost(userPost,firstName,lastName)
 { 
     userPost.forEach(post => { 
@@ -89,7 +46,6 @@ function userPost(userPost,firstName,lastName)
         $('.main').prepend(
             `  
             <div class="myPost" data-id="${post.id}">
->>>>>>> 72969f329781972833f05512d139f94d756893e7
             <h3 class ="username"> ${firstName} ${lastName} : <span class ="postbody">${post.body}</span></h3>
             
             <div class="image"> 
@@ -103,39 +59,13 @@ function userPost(userPost,firstName,lastName)
               <input type="text" placeholder="Add your comment" />
               <input type="submit" name="Send" value="Send" />
             </form>
-<<<<<<< HEAD
-          </div>`
-    );
-  });
-=======
           </div>`)
             })  
           // let allpost = document.querySelectorAll('.myPost')
           // console.log(allpost[0].dataset.id)
 }
->>>>>>> 72969f329781972833f05512d139f94d756893e7
 
-  var date = new Date();
-  console.log(date);
-}
 
-<<<<<<< HEAD
-// Tim recent friend post
-function generateRecentPost() {
-  console.log(`${document.cookie.split("=")[1]}`);
-  axios
-    .get(`api/posts/friendrecentposts/${document.cookie.split("=")[1]}`)
-    .then(({ data }) => {
-      // console.log(data)
-      // var utcDate = new Date(item.createdAt.toUTCString());
-      // utcDate.setHours(utcDate.getHours());
-      // var usDate = new Date(utcDate);
-      data.forEach((item) => {
-        console.log(item.createdAt);
-        $(".postlist").prepend(
-          `  <div class="userpost" data-postid='${item.id}'>
-                        <button>
-=======
   // Tim recent friend post
   function generateRecentPost()
   {
@@ -148,23 +78,11 @@ function generateRecentPost() {
                     $(".postlist").prepend(
                         `  <div class="userpost" data-postid='${item.id}'>
                         <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
->>>>>>> 72969f329781972833f05512d139f94d756893e7
                         <p>User:${item.user.firstName}<p>
-                        <p> ${item.body.slice(0, 20)}... </p>
+                        <p> ${item.body.slice(0,20)}... </p>
                         <p>At: ${item.createdAt.split(/[a-zA-Z.]/)[1]} <p>
                        </button>
                       </div>`
-<<<<<<< HEAD
-        );
-      });
-    })
-    .catch((err) => console.error(err));
-}
-
-// Add new post
-document.getElementById("post").addEventListener("click", (event) => {
-  event.preventDefault();
-=======
                     )
                 });
               
@@ -191,22 +109,9 @@ let recent = false
 document.getElementById('post').addEventListener('click', event =>
 {
   event.preventDefault()
->>>>>>> 72969f329781972833f05512d139f94d756893e7
 
-  let formData = new FormData(document.getElementById("POSTIT"));
+  let formData = new FormData(document.getElementById('POSTIT'))
   // formData.append('files', )
-<<<<<<< HEAD
-  if (
-    document.getElementById("file").value.length > 0 ||
-    document.getElementById("posttext").value !== ""
-  ) {
-    axios
-      .post("api/posts/addpost", formData)
-      .then(({ data }) =>
-        userPost([data[0].data], data[1].firstName, data[1].lastName)
-      )
-      .catch((err) => console.error(err));
-=======
   if(document.getElementById('file').value.length > 0 || document.getElementById('posttext').value !== '')
   {
   axios.post('api/posts/addpost', formData)
@@ -229,21 +134,17 @@ document.getElementById('post').addEventListener('click', event =>
   document.getElementById('file').value = null
   document.getElementById('posttext').value = ''
 }
->>>>>>> 72969f329781972833f05512d139f94d756893e7
 
-    // console.log(formData)
+document.getElementById('posttext').focus()
 
-    document.getElementById("file").value = null;
-    document.getElementById("posttext").value = "";
-  }
-
-  document.getElementById("posttext").focus();
-});
+})
 
 // Add friend on click
 
+
 // //show a list of other users who are not friends yet with me - hoyeon
 const renderFriendSuggestion = () => {
+
   if (!document.cookie.split("=")[1]) {
     console.log("Not logged in");
   } else {
@@ -253,7 +154,7 @@ const renderFriendSuggestion = () => {
         document.getElementById("friendSuggest").innerHTML = "";
         for (let i = 0; i < data.length; i++) {
           let notfriendElem = document.createElement("div");
-          notfriendElem.innerHTML = `<button id='add' onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
+          notfriendElem.innerHTML = `<button id='add'  onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
           document.getElementById("friendSuggest").append(notfriendElem);
         }
       })
@@ -263,7 +164,7 @@ const renderFriendSuggestion = () => {
 };
 
 // let addFriend = document.querySelector('#myfriend')
-function addFriend(id) {
+function addFriend( id ) {
   if (event.target.id === "add") {
     axios
       .post("api/friend/addfriend", {
@@ -280,10 +181,6 @@ function addFriend(id) {
 
 //delete a friend from myfriendList - hoyeon
 function unFriend(id) {
-<<<<<<< HEAD
-  if (event.target.id === "unFriend") {
-=======
->>>>>>> 72969f329781972833f05512d139f94d756893e7
     axios
       .delete("api/friend/unfriend", {
         data: {
@@ -296,16 +193,12 @@ function unFriend(id) {
         renderFriendSuggestion();
       })
       .catch((err) => console.error(err));
-<<<<<<< HEAD
-  }
-=======
->>>>>>> 72969f329781972833f05512d139f94d756893e7
 }
 
 //show all users who are currently friends with me- hoyeon
 const renderMyFriends = () => {
-  axios
-    .get(`/api/users/info/${document.cookie.split("=")[1]}`)
+  
+  axios.get(`/api/users/info/${document.cookie.split("=")[1]}`)
     .then(({ data }) => {
       let friendData = data.UserFriends;
       document.getElementById("friendList").innerHTML = "";
@@ -407,7 +300,7 @@ const renderMyFriends = () => {
 //   }
 // };
 
-// // Generate recent post
+// // Generate recent post 
 //   function generateRecentPost()
 //   {
 //       console.log(`${document.cookie.split("=")[1]}`)
@@ -427,13 +320,13 @@ const renderMyFriends = () => {
 //                       </div>`
 //                     )
 //                 });
-
+              
 //             }
 //         )
 //         .catch(err => console.error(err))
 //   }
 
-//   // Submit new post
+//   // Submit new post 
 //   document.getElementById('post').addEventListener('click', event =>
 // {
 //   event.preventDefault()
@@ -444,28 +337,28 @@ const renderMyFriends = () => {
 //   .catch(err => console.error(err))
 // })
 
-// // User post
+// // User post 
 // function userPost(userPost,firstName,lastName)
 // {
 //   console.log(userPost)
-//     userPost.forEach(post => {
+//     userPost.forEach(post => { 
 //         // console.log("In userpost")
 //         // console.log(post)
 //         let comments = post.comments.reduce((allComments, comments) =>
 //         {
-//             return allComments +=
+//             return allComments +=  
 //            ` <p>Name: <span>${comments.title}</span></p>`
-
+            
 //             // console.log(comments)
 //         }
 //         ,'')
 
 //         $('.main').prepend(
-//             `
+//             `  
 //             <div class="myPost">
 //             <p>${firstName} ${lastName}</p>
 //             <p>${post.body}</p>
-//             <div class="image">
+//             <div class="image"> 
 //             <img src="${post.image}" alt="" class="postImage">
 //                </div>
 //             <hr />
@@ -477,8 +370,9 @@ const renderMyFriends = () => {
 //               <input type="submit" name="Send" value="Send" />
 //             </form>
 //           </div>`)
-//             })
+//             })            
 // }
+
 
 function init() {
   loggedInStatus();
