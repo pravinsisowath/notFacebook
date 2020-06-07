@@ -6,12 +6,13 @@ const { User, Post, Comment } = require('../models')
 // User Login - done (Tim)
 router.get('/users/:username/:password/login', (req, res) => {
     User.findOne({ where : {username: req.params.username, password : req.params.password }})
-    .then(data => (data === null)? res.json('Not Found') : res.json(data.dataValues.uuid))
+    .then(data => (data === null)? res.json(0) : res.json(data.dataValues.uuid))
     .catch(err => console.error(err))
 })
 
 // Get all user info - Done (Tim)
 router.get('/users/info/:userid', (req, res) => {
+  
     User.findAll({ where : { uuid : req.params.userid} , 
         include : [       
             {
@@ -44,8 +45,7 @@ router.get('/users/info/:userid', (req, res) => {
         let pendingRequest = data[0].Requesters
         let friendRequest = data[0].Requestees
         let aboutUser = {UserInfo : userInfo, UserPost : post, UserFriends : friends, PendingRequest : pendingRequest, FriendRequest: friendRequest}
-        console.log(pendingRequest)
-       res.json(data)  
+       res.json(aboutUser)  
     })
     .catch(err => console.error(err))
 })

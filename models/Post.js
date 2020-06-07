@@ -5,11 +5,11 @@ class Post extends Model { }
 
 Post.init({
     body: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(10000),
     allowNull: false
   },
    image: {
-    type: DataTypes.BLOB('long') ,
+    type: DataTypes.STRING ,
     allowNull: true
   }
 }, { sequelize, modelName: 'post' })

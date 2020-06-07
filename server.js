@@ -3,6 +3,10 @@ require('dotenv').config()
 const http = require('http')
 const socketio = require('socket.io')
 
+//File upload 
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
+
 
 // Create an express variables
 const express = require('express')
@@ -16,23 +20,48 @@ const io = socketio(server)
 // Telling app to use file in public folder ? 
 app.use(express.static(join(__dirname, 'public')))
 app.use(express.urlencoded({ extended : true }))
+app.use(bodyParser.urlencoded({extended : true }))
 app.use(express.json())
+app.use(fileUpload())
+
 
 // Start to listening
 io.on('connection', socket => {
-    socket.emit('onUpdate', "Welcome to NotFaceBook")
 
-    //Broadcast when a user connect
-    socket.broadcast.emit("onUpdate", 'A user has joined the chat')
-
-    // Runs on when disconnect
-    socket.on('disconnect', () =>
+    // On new user, broardcast to everyone that is online
+    socket.on('newUserSignUp',  message =>
     {
-        io.emit('onUpdate',JSON.stringify({name:'Tim',age:'M'}))
+        //Broadcast when a new user signup
+        console.log(message)
+        socket.broadcast.emit("newUserSignUp", message)
+    })
+   
+    // On new update, letting all the users that is friend know so we can re-render their list items
+    socket.on("newUpdate", ({userId, newUpdate}) => 
+    {
+        if(userId.length > 0)
+        {
+            userId.forEach(user =>
+                {
+                    socket.emit(user, newUpdate )
+                })
+        } 
     })
 
-    module.exports = socket
+    // Sending message back and forth using user id
+    socket.on('message', ({userId, message }) =>
+    {
+        socket.emit(userId,message)
+    })
+
+    // On when disconnect
+    socket.on('disconnect', () =>
+    {
+        io.emit('userleft',"User has left!")
+    })
+
 })
+
 
 
 // Create a PORT variable equal to whatever port that existed in the enviroment or 3000

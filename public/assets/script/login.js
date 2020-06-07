@@ -1,20 +1,10 @@
 
-// const socket = io()
-
-// socket.on('onUpdate', message=>
-// {
-//     console.log("There is a new update")
-// })
-
-// socket.on('Update', message=>
-// {
-//     console.log("Update emit " + message)
-// })
+const socket = io()
 
 document.getElementById('signin').addEventListener('submit', event =>
 {
     event.preventDefault()
-
+    console.log("123123")
     signIn(event.target.username.value, event.target.password.value)
    
 })
@@ -23,9 +13,8 @@ function signIn (val1,val2)
 {
     axios.get(`/api/users/${val1}/${val2}/login`)
     .then(({data}) => {
-        
-        
-    if(data === null){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
+  
+    if(!data){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
     else{
         sessionSet(data)
         window.location.replace('/profile')
@@ -37,6 +26,7 @@ function signIn (val1,val2)
 document.getElementById('signup').addEventListener('submit', event =>
 {   
     event.preventDefault()
+    console.log("singup")
     if(ValidateEmail(event.target.email.value))
     {
     let newUser = {
@@ -50,7 +40,9 @@ document.getElementById('signup').addEventListener('submit', event =>
 	activated : 0
     }
     axios.post('/api/users/register',newUser)
-    .then( data => console.log(data))
+    .then(() => {
+        socket.emit('newUserSignUp', `User ${event.target.firstName.value} ${event.target.lastName.value} has joined NotFaceBook!` )
+    })
     .catch(err => console.log(err))
     document.getElementById("signupForm").innerHTML = `
     <h1>Success!</h1>
