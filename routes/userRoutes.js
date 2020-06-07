@@ -12,6 +12,7 @@ router.get('/users/:username/:password/login', (req, res) => {
 
 // Get all user info - Done (Tim)
 router.get('/users/info/:userid', (req, res) => {
+  
     User.findAll({ where : { uuid : req.params.userid} , 
         include : [       
             {
@@ -36,7 +37,7 @@ router.get('/users/info/:userid', (req, res) => {
             }
         ] 
     })
-    .then(async data  => {
+    .then(async data => {
         data = await JSON.parse(JSON.stringify(data))
         let userInfo =  {FirstName : data[0].firstName, LastName : data[0].lastName, Age : data[0].age, Email : data[0].email, Gender: data[0].gender}
         let post = data[0].posts
@@ -44,9 +45,7 @@ router.get('/users/info/:userid', (req, res) => {
         let pendingRequest = data[0].Requesters
         let friendRequest = data[0].Requestees
         let aboutUser = {UserInfo : userInfo, UserPost : post, UserFriends : friends, PendingRequest : pendingRequest, FriendRequest: friendRequest}
-        console.log(pendingRequest)
        res.json(aboutUser)  
-    //    console.log(data)
     })
     .catch(err => console.error(err))
 })
@@ -64,14 +63,14 @@ router.put('/users/update/:password/:uuid', (req,res) =>
 {
     User.update(req.body, { where: {password: req.params.password , id : req.params.uuid }})
     .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-});
+    .catch(err => console.error(err))
+})
 
 // Delete a user requires to 2 fields, password and user id - done (Tim)
 router.delete('/users/delete/:password/:uuid', (req,res) => {
     User.destroy({where : {password: req.params.password, uuid : req.params.uuid}})
     .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-});
+    .catch(err => console.error(err))
+})
 
-module.exports = router;
+module.exports = router

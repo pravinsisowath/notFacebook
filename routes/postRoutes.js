@@ -2,47 +2,38 @@ const router = require('express').Router()
 let fs = require('fs')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
+const moment = require('moment')
 const { User, Post, Comment, Friend} = require('../models')
 
-// Find all posts from a user that is your friend
-// Find all posts - Done (Tim)
+
+// Find most recent friend posts - Done (Tim)
 router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
 
-    // Find all users where userUuid equal to uuid
-  User.findAll({ where: { uuid: req.params.userUuid }, include: [{model : User, as : 'friend', attributes : ['firstName','lastName','age','gender','email','uuid']}] })
+// Find all users where userUuid equal to uuid
+  User.findAll({ where: { uuid: req.params.userUuid }, include: [{model : User, as : 'friend', attributes : ['uuid']}] })
   .then(async (data) =>
   {
     // Turn data into an array 
       data = await JSON.parse(JSON.stringify(data[0]))
-        
+
     // Now data is an array, we can loop through and filter out an object that we want 
       data = data.friend.map(val => {return  val.uuid })
-      console.log(data)
-        // res.json(data)
-      Post.findAll({ where: { userUUid : {[Op.in] : data }} })
-      .then( async recentPost => 
+
+      Post.findAll({ where: { userUUid : {[Op.in] : data }}, 
+        attributes : [Sequelize.fn('MAX', Sequelize.col('id'))], group : ['userUuid'] , raw: true, })
+      .then( async object => 
         {
-            let tempList = []
+            let temp = []
+            object = object.map( value =>  ( parseInt(JSON.stringify(value).split(/[\:}]/)[1])))
+            object.sort((a,b) => a.id - b.id)
+            Post.findAll({ where : { id : {[Op.in] : object }}, attributes : ["id", "body", "createdAt"],
+            include : [{model : User, attributes : ["firstName", "lastName"]}]
+        })
+            .then(post => res.json(post))
+            .catch(err => console.error(err))
 
-            
-            recentPost = await JSON.parse(JSON.stringify(recentPost))
-
-            recentPost = recentPost.sort((a, b) => {return b - a} )
-            console.log( recentPost)
-            // for(let i = 0; i < recentPost.length; i++)
-            // {
-            //     console.log(tempList.length > 0)
-            //     {
-            //         tempList
-            //     }
-            // }
-            // recentPost = recentPost.map
-            // console.log(recentPost)
-            res.json(recentPost)
         })
         .catch(err => console.error(err))
-     // Return data back to user
-    //   res.json(data)
    
   })
   .catch(err=> console.error(err));
@@ -77,17 +68,61 @@ router.get('/posts/getpost/:postId/:userUuid', (req, res) => {
 })
 
 // Add a Post - - Inprogress (Working on getting the image work)
-router.post('/posts/addpost', (req, res) =>{
-    // let temp = req.body
-    // let url = req.body.image
-    // console.log(req.body.image)
-    // let imageData = fs.readFileSync(url)
-    Post.create(req.body)
+router.post('/posts/addpost', async (req, res) =>{
+    
+    let id = req.rawHeaders.findIndex((item) => (item === 'Cookie'))
+    id = req.rawHeaders[id + 1].split(/[\=;" "]/)
+
+    let temp 
+    let uuid
+    id.map((val,key) => {
+        if( val === 'name'){ uuid = id[key + 1]}
+        if( val === 'io' ) { 
+            temp = id[key + 1]
+        }
+    })
+    let check = false
+    let postImage
+    let path
+    if(req.files)
+    {
+        postImage = await req.files.postImage
+ 
+       await postImage.mv(`./public/assets/Image/+${temp}+` + postImage.name, async (err) =>
+        {
+            if(err)
+            {
+                console.log('Failed to upload')
+                console.log(err)
+            }
+            else
+            {
+                console.log('sucess to upload')
+               
+            }
+        })    
+        check = true
+        path = `assets/Image/+${temp}+` + postImage.name   
+    }
+    
+        path = ((check)? path : '#')
+     let body = {userUuid: uuid , body: req.body.posttext , image : path }
+    
+ 
+    Post.create(body)
     .then((data) => {
-        // console.log(data.image)
-        // fs.writeFileSync(url,'utf8', data.image)
-        res.sendStatus(200)})
+        data.dataValues.comments = []
+        // console.log(data.dataValues.comments = [])
+        // res.json(data)
+        User.findOne({ where : { uuid : uuid }, attributes : ['firstName', 'lastName']})
+        .then(({firstName,lastName}) => {
+
+            res.json([{data},{firstName,lastName}])
+        })
+        .catch(err => console.error(err))
+    })
     .catch(err => console.error(err))
+  
 })
 
 // Update Post info - Inprogress (Working on getting the image work)

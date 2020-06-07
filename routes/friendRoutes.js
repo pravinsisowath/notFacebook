@@ -50,7 +50,7 @@ router.get("/friend/findfriend/:userUuid", (req, res) => {
 
 // Add a friend - Done (Time)
 router.post("/friend/addfriend", (req, res) => {
-  Friend.bulkCreate([{userUuid : req.body.requesteeId, friendUuid : req.body.requesterId },{friendUuid : req.body.requesteeId, userUuid : req.body.requesterId }])
+  Friend.bulkCreate([{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },{friendUuid : req.body.userUuid, userUuid : req.body.friendUuid }])
     .then((data) => {
       deleteRequest(req.body.requesterId, req.body.requesteeId)
       res.sendStatus(200);
@@ -60,7 +60,8 @@ router.post("/friend/addfriend", (req, res) => {
 
 // // Delete a friend / unfriend - Done (Tim)
 router.delete("/friend/unfriend", (req, res) => {
-  Friend.destroy({where: [ {[Op.or] : [{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },{userUuid : req.body.friendUuid, friendUuid : req.body.userUuid}] }]})
+  Friend.destroy({where: [ {[Op.or] : [{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },
+                                        {userUuid : req.body.friendUuid, friendUuid : req.body.userUuid}] }]})
     .then(() => res.sendStatus(200))
     .catch( err => console.error(err));
 });
