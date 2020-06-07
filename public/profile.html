@@ -1,149 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/assets/css/profile.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="container">
-      <div id="wrapper1">
-        <nav class="navBar">
-          <img
-            class="logo"
-            src="assets/Image/no-facebook.png"
-            alt="NotFaceBook"
-          />
-          <div class="title">NotFaceBook</div>
-          <div class="dropdown">
-            <li class="dropbtn"></li>
-            <div class="dropdown-content">
-              <a href="#">recentpost</a>
-              <a href="#">friends</a>
-            </div>
-          </div>
-          <div class="menu">
-            <div class="loggedIn" id="loggedIn">
-              <!-- Welcome, user1 <button id="logoutBtn">Logout</button> -->
-            </div>
-          </div>
-        </nav>
-        <aside class="recentpost">
-          <p>Recent friends post</p>
-        </aside>
 
-        <section class="postarea">
-          <textarea
-            class="textarea"
-            id=""
-            cols="40"
-            rows="3"
-            placeholder="What's in your mind?"
-          ></textarea>
-          <input type="file" id="file" accept="image/*" />
-          <label for="file" class="file"></label>
-          <button class="post">Post It !</button>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/profile.css" />
+  <title>Document</title>
+</head>
 
-        <aside class="friendsList">
-          <p>
-            <input
-              type="text"
-              name="Search Friend"
-              placeholder="Search Friend"
-            />
-          </p>
-        </aside>
-      </div>
+<body>
+  <div id="container">
+    <div id="wrapper1">
+      <nav class="navBar">
+        <img class="logo" src="assets/Image/no-facebook.png" alt="NotFaceBook" />
+        <div class="title">NotFaceBook</div>
+        <div class="dropdown">
+          <li class="dropbtn"></li>
+          <div class="dropdown-content">
+            <a href="#">recentpost</a>
+            <a href="#">friends</a>
+          </div>
+        </div>
+        <div class="menu">
+          <div class="loggedIn" id="loggedIn">
+            <!-- Welcome, user1 <button id="logoutBtn">Logout</button> -->
+          </div>
+        </div>
+      </nav>
+      <aside class="recentpost">
+        <p>Recent friends post</p>
+      </aside>
 
-      <div id="wrapper2">
-        <aside class="postlist">
-          <!-- New Post from other users -->
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-          <div class="userpost" data-postid="#">
-            <button>This is a new post</button>
-          </div>
-        </aside>
+      <form class="postarea" id="POSTIT" method="POST" enctype="multipart/form-data">
+        <label for="id" name="id" value='getid()'></label>
+        <label for="posttext"></label>
+        <textarea name="posttext" class="textarea" id="posttext" cols="40" rows="3"
+          placeholder="What's in your mind?"></textarea>
+        <input name="postImage" type="file" id="file" accept="image/*" />
+        <label for="file" class="file"></label>
+        <button class="post" id="post" type="submit" action="/api/posts/addpost">Post It !</button>
+      </form>
 
-        <section class="main">
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr />
-            <div class="commentArea">
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-            </div>
+      <aside class="friendsList">
+        <p>
+          <input type="text" name="Search Friend" placeholder="Search Friend" />
+        </p>
+      </aside>
+    </div>
 
-            <form action="" class="commentForm">
-              <input type="text" placeholder="Add your comment" />
-              <input type="submit" name="Send" value="Send" />
-            </form>
-          </div>
+    <div id="wrapper2">
+      <aside class="postlist">
+        <!-- New Post from other users -->
 
-          <div class="myPost">
-            <p>User name</p>
-            <p>Content: This is a new post</p>
-            <hr />
-            <div class="commentArea">
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-              <p>Name: <span>This is a comment</span></p>
-            </div>
-            <form action="" class="commentForm">
-              <input type="text" placeholder="Add your comment" />
-              <input type="submit" name="Send" value="Send" />
-            </form>
+        <!-- <div class="userpost" data-postid="#">
+            <button>This is a new post</button>
+          </div> -->
+      </aside>
+
+      <section class="main" id="main">
+
+
+      </section>
+
+      <!-- Friends -->
+      <aside class="friends">
+        <section class="myFriends">
+          <div>My current friends</div>
+          <div class="user" data-uid="" id="friendList">
+            <!-- <button>User 1</button> -->
           </div>
         </section>
+        <!-- add friend button -->
+        <section class="addFriends">
+          <div>Add new friends</div>
+          <div class="user"  id="friendSuggest">
+            <!-- <button>+ hoyeon</button> -->
+          </div>
+        </section>
+      </aside>
 
+<<<<<<< HEAD
         <!-- Friends -->
         <aside class="friends">
           <section class="myFriends">
@@ -165,8 +101,24 @@
       <footer class="myFooter">
         <p>Developers: <span>Alan Lee | Pravin | Hoyeon | Tim</span></p>
       </footer>
+=======
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
     </div>
+    <!-- footer -->
+    <footer class="myFooter">
+      <p>Developers: <span>Alan Lee | Pravin | Hoyeon | Tim</span></p>
+    </footer>
+  </div>
 
+  <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+  <script src="./socket.io/socket.io.js"></script>
+  <script src="/assets/script/profile.js"></script>
+</body>
+
+<<<<<<< HEAD
     <script
       src="https://code.jquery.com/jquery-3.5.0.js"
       integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
@@ -176,3 +128,6 @@
     <script src="/assets/script/profile.js"></script>
   </body>
 </html>
+=======
+</html>
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123

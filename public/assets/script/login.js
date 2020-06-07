@@ -1,6 +1,7 @@
 document.getElementById("signin").addEventListener("submit", (event) => {
   event.preventDefault();
 
+<<<<<<< HEAD
   signIn(event.target.username.value, event.target.password.value);
 });
 
@@ -15,10 +16,33 @@ function signIn(val1, val2) {
         sessionSet(data);
         window.location.replace("/profile");
       }
+=======
+const socket = io()
+
+document.getElementById('signin').addEventListener('submit', event =>
+{
+    event.preventDefault()
+    console.log("123123")
+    signIn(event.target.username.value, event.target.password.value)
+   
+})
+
+function signIn (val1,val2)
+{
+    axios.get(`/api/users/${val1}/${val2}/login`)
+    .then(({data}) => {
+  
+    if(!data){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
+    else{
+        sessionSet(data)
+        window.location.replace('/profile')
+    }
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
     })
     .catch((err) => console.error(err));
 }
 
+<<<<<<< HEAD
 document.getElementById("signup").addEventListener("submit", (event) => {
   event.preventDefault();
   if (ValidateEmail(event.target.email.value)) {
@@ -36,6 +60,29 @@ document.getElementById("signup").addEventListener("submit", (event) => {
       .post("/api/users/register", newUser)
       .then((data) => console.log(data))
       .catch((err) => console.log(err));
+=======
+document.getElementById('signup').addEventListener('submit', event =>
+{   
+    event.preventDefault()
+    console.log("singup")
+    if(ValidateEmail(event.target.email.value))
+    {
+    let newUser = {
+    username : event.target.username.value,
+	password : event.target.password.value,
+	firstName : event.target.firstName.value,
+	lastName : event.target.lastName.value,
+	age : event.target.age.value,
+	email : event.target.email.value,
+	gender : event.target.gender.value,
+	activated : 0
+    }
+    axios.post('/api/users/register',newUser)
+    .then(() => {
+        socket.emit('newUserSignUp', `User ${event.target.firstName.value} ${event.target.lastName.value} has joined NotFaceBook!` )
+    })
+    .catch(err => console.log(err))
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
     document.getElementById("signupForm").innerHTML = `
     <h1>Success!</h1>
     `;

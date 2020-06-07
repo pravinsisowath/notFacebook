@@ -63,11 +63,15 @@ router.get("/friend/findfriend/:userUuid", (req, res) => {
 
 // Add a friend - Done (Tim)
 router.post("/friend/addfriend", (req, res) => {
+<<<<<<< HEAD
   Friend.bulkCreate([
     { userUuid: req.body.userUuid, friendUuid: req.body.friendUuid },
     { friendUuid: req.body.userUuid, userUuid: req.body.friendUuid },
   ])
     // Friend.create(req.body)
+=======
+  Friend.bulkCreate([{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },{friendUuid : req.body.userUuid, userUuid : req.body.friendUuid }])
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
     .then((data) => {
       // deleteRequest(req.body.requesterId, req.body.requesteeId);
       res.sendStatus(200);
@@ -77,6 +81,7 @@ router.post("/friend/addfriend", (req, res) => {
 
 // // Delete a friend / unfriend - Done (Tim)
 router.delete("/friend/unfriend", (req, res) => {
+<<<<<<< HEAD
   Friend.destroy({
     where: [
       {
@@ -87,6 +92,10 @@ router.delete("/friend/unfriend", (req, res) => {
       },
     ],
   })
+=======
+  Friend.destroy({where: [ {[Op.or] : [{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },
+                                        {userUuid : req.body.friendUuid, friendUuid : req.body.userUuid}] }]})
+>>>>>>> 0c173bc4391703b9b13bbcd8d38cf636ebdfe123
     .then(() => res.sendStatus(200))
     .catch((err) => console.error(err));
 });
