@@ -1,8 +1,6 @@
 
 const socket = io()
 
-
-
 document.getElementById('signin').addEventListener('submit', event =>
 {
     event.preventDefault()

@@ -1,9 +1,15 @@
-// const socket = io()
+const socket = io()
 
-// socket.on('newUserSignUp', message =>
-// {
-//     console.log(message)
-// })
+socket.on('newUserSignUp', message =>
+{
+    console.log(message)
+})
+
+
+// const moment = moment()
+console.log('This is TIME')
+console.log(moment().format('l LT'))
+
 
 const logOut = () => {
     console.log('hello')

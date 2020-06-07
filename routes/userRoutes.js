@@ -12,6 +12,7 @@ router.get('/users/:username/:password/login', (req, res) => {
 
 // Get all user info - Done (Tim)
 router.get('/users/info/:userid', (req, res) => {
+  
     User.findAll({ where : { uuid : req.params.userid} , 
         include : [       
             {

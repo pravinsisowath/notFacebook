@@ -60,7 +60,8 @@ router.post("/friend/addfriend", (req, res) => {
 
 // // Delete a friend / unfriend - Done (Tim)
 router.delete("/friend/unfriend", (req, res) => {
-  Friend.destroy({where: [ {[Op.or] : [{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },{userUuid : req.body.friendUuid, friendUuid : req.body.userUuid}] }]})
+  Friend.destroy({where: [ {[Op.or] : [{userUuid : req.body.userUuid, friendUuid : req.body.friendUuid },
+                                        {userUuid : req.body.friendUuid, friendUuid : req.body.userUuid}] }]})
     .then(() => res.sendStatus(200))
     .catch( err => console.error(err));
 });

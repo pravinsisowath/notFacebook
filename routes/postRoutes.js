@@ -2,6 +2,7 @@ const router = require('express').Router()
 let fs = require('fs')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
+const moment = require('moment')
 const { User, Post, Comment, Friend} = require('../models')
 
 
@@ -105,7 +106,7 @@ router.post('/posts/addpost', async (req, res) =>{
     }
     
         path = ((check)? path : '#')
-     let body = {userUuid: uuid , body: req.body.posttext , image : path  }
+     let body = {userUuid: uuid , body: req.body.posttext , image : path }
     
  
     Post.create(body)
