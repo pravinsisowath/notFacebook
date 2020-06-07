@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const socket = io();
 
 socket.on("newUserSignUp", (message) => {
@@ -7,6 +8,8 @@ socket.on("newUserSignUp", (message) => {
 // const moment = moment()
 console.log("This is TIME");
 console.log(moment().format("l LT"));
+=======
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
 
 const logOut = () => {
   console.log("hello");
@@ -21,6 +24,7 @@ const logOut = () => {
 
 function loggedInStatus() {
   if (!document.cookie.split("=")[1]) {
+<<<<<<< HEAD
     console.log("Nothing");
   } else {
     console.log("Something");
@@ -34,6 +38,15 @@ function loggedInStatus() {
           data.UserInfo.FirstName,
           data.UserInfo.LastName
         );
+=======
+  } else {
+    axios
+      .get(`/api/users/info/${document.cookie.split("=")[1]}`)
+      .then(({ data }) => {
+        
+          generateRecentPost()
+          userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName)
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
         document.getElementById("loggedIn").innerHTML = `
               Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
@@ -43,6 +56,7 @@ function loggedInStatus() {
   }
 }
 
+<<<<<<< HEAD
 function userPost(userPost, firstName, lastName) {
   console.log(userPost);
   userPost.forEach((post) => {
@@ -57,6 +71,25 @@ function userPost(userPost, firstName, lastName) {
     $(".main").prepend(
       `  
             <div class="myPost">
+=======
+function userPost(userPost,firstName,lastName)
+{ 
+    userPost.forEach(post => { 
+        // console.log("In userpost")
+        // console.log(post)
+        let comments = post.comments.reduce((allComments, comments) =>
+        {
+            return allComments +=  
+           ` <p>Name: <span>${comments.title}</span></p>`
+            
+            // console.log(comments)
+        }
+        ,'')
+
+        $('.main').prepend(
+            `  
+            <div class="myPost" data-id="${post.id}">
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
             <h3 class ="username"> ${firstName} ${lastName} : <span class ="postbody">${post.body}</span></h3>
             
             <div class="image"> 
@@ -66,18 +99,27 @@ function userPost(userPost, firstName, lastName) {
             <div class="commentArea">
             ${comments}
             </div>
-            <form  method="POST" data-postId="${post.id}"class="commentForm">
+            <form  method="POST" data-postId="${post.id}" class="commentForm">
               <input type="text" placeholder="Add your comment" />
               <input type="submit" name="Send" value="Send" />
             </form>
+<<<<<<< HEAD
           </div>`
     );
   });
+=======
+          </div>`)
+            })  
+          // let allpost = document.querySelectorAll('.myPost')
+          // console.log(allpost[0].dataset.id)
+}
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
 
   var date = new Date();
   console.log(date);
 }
 
+<<<<<<< HEAD
 // Tim recent friend post
 function generateRecentPost() {
   console.log(`${document.cookie.split("=")[1]}`);
@@ -93,11 +135,26 @@ function generateRecentPost() {
         $(".postlist").prepend(
           `  <div class="userpost" data-postid='${item.id}'>
                         <button>
+=======
+  // Tim recent friend post
+  function generateRecentPost()
+  {
+        axios.get(`api/posts/friendrecentposts/${document.cookie.split("=")[1]}`)
+        .then( ({data}) =>
+            {
+
+                data.forEach(item => {
+                    console.log(item)
+                    $(".postlist").prepend(
+                        `  <div class="userpost" data-postid='${item.id}'>
+                        <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
                         <p>User:${item.user.firstName}<p>
                         <p> ${item.body.slice(0, 20)}... </p>
                         <p>At: ${item.createdAt.split(/[a-zA-Z.]/)[1]} <p>
                        </button>
                       </div>`
+<<<<<<< HEAD
         );
       });
     })
@@ -107,9 +164,38 @@ function generateRecentPost() {
 // Add new post
 document.getElementById("post").addEventListener("click", (event) => {
   event.preventDefault();
+=======
+                    )
+                });
+              
+            }
+        )
+        .catch(err => console.error(err))
+  }
+// Show post
+function showPost(data,fname,lname)
+{
+  // console.log(fname)
+    axios.get(`api/posts/getpost/${data}`)
+    .then(({data}) => 
+      {
+        $('.main').empty()
+        userPost([data],fname,lname)
+      }
+    )
+    .catch(err => console.error(err))
+}
+
+// Add new post
+let recent = false
+document.getElementById('post').addEventListener('click', event =>
+{
+  event.preventDefault()
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
 
   let formData = new FormData(document.getElementById("POSTIT"));
   // formData.append('files', )
+<<<<<<< HEAD
   if (
     document.getElementById("file").value.length > 0 ||
     document.getElementById("posttext").value !== ""
@@ -120,6 +206,30 @@ document.getElementById("post").addEventListener("click", (event) => {
         userPost([data[0].data], data[1].firstName, data[1].lastName)
       )
       .catch((err) => console.error(err));
+=======
+  if(document.getElementById('file').value.length > 0 || document.getElementById('posttext').value !== '')
+  {
+  axios.post('api/posts/addpost', formData)
+  .then(({ data }) => {
+    if(!recent)
+    {
+      $('.main').scrollTop(0)
+      userPost([data[0].data],data[1].firstName,data[1].lastName)
+    }
+    else
+    {
+      loggedInStatus()
+    }
+  
+  })
+  .catch(err => console.error(err))
+  
+  // console.log(formData)
+
+  document.getElementById('file').value = null
+  document.getElementById('posttext').value = ''
+}
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
 
     // console.log(formData)
 
@@ -135,9 +245,8 @@ document.getElementById("post").addEventListener("click", (event) => {
 // //show a list of other users who are not friends yet with me - hoyeon
 const renderFriendSuggestion = () => {
   if (!document.cookie.split("=")[1]) {
-    console.log("Nothing");
+    console.log("Not logged in");
   } else {
-    console.log("connected");
     axios
       .get(`/api/friend/findfriend/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
@@ -171,7 +280,10 @@ function addFriend(id) {
 
 //delete a friend from myfriendList - hoyeon
 function unFriend(id) {
+<<<<<<< HEAD
   if (event.target.id === "unFriend") {
+=======
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
     axios
       .delete("api/friend/unfriend", {
         data: {
@@ -184,7 +296,10 @@ function unFriend(id) {
         renderFriendSuggestion();
       })
       .catch((err) => console.error(err));
+<<<<<<< HEAD
   }
+=======
+>>>>>>> 72969f329781972833f05512d139f94d756893e7
 }
 
 //show all users who are currently friends with me- hoyeon
@@ -193,7 +308,6 @@ const renderMyFriends = () => {
     .get(`/api/users/info/${document.cookie.split("=")[1]}`)
     .then(({ data }) => {
       let friendData = data.UserFriends;
-      console.log(friendData);
       document.getElementById("friendList").innerHTML = "";
       for (let i = 0; i < friendData.length; i++) {
         let friendElem = document.createElement("div");
@@ -203,6 +317,10 @@ const renderMyFriends = () => {
     })
     .catch((err) => console.log(err));
 };
+
+
+// Add comment
+// document.getElementById('')
 
 // const logOut = () => {
 //   console.log("hello");

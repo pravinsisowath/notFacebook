@@ -11,6 +11,10 @@ Comment.init({
    image: {
     type: DataTypes.BLOB,
     allowNull: true
+  },
+  user: {
+    type: DataTypes.BLOB,
+    allowNull: true
   }
 }, { sequelize, modelName: 'comment' })
 
