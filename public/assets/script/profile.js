@@ -184,6 +184,21 @@ function addFriend( id ) {
       .then(() => {
         renderFriendSuggestion();
         renderMyFriends();
+        document.getElementById("friends").innerHTML = `
+        <section class="myFriends">
+          <div>My current friends</div>
+          <div class="user" data-uid="" id="friendList">
+            <!-- <button>User 1</button> -->
+          </div>
+        </section>
+        <!-- add friend button -->
+        <section class="addFriends">
+          <div>Add new friends</div>
+          <div class="user"  id="friendSuggest">
+            <!-- <button>+ hoyeon</button> -->
+          </div>
+        </section>
+        `;
       })
       .catch((err) => console.error(err));
 }
