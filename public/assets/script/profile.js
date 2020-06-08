@@ -1,4 +1,3 @@
-
 const logOut = () => {
     console.log('hello')
     var date = new Date();
@@ -36,8 +35,10 @@ function userPost(userPost,firstName,lastName)
         // console.log(post)
         let comments = post.comments.reduce((allComments, comments) =>
         {
+          console.log(comments)
             return allComments +=  
-           ` <p>Name: <span>${comments.title}</span></p>`
+            `<p>${comments.username} : ${comments.title} <span class="time">${comments.time}</span></p>`
+          
             
             // console.log(comments)
         }
@@ -52,17 +53,16 @@ function userPost(userPost,firstName,lastName)
             <img src="${post.image}" alt="" class="postImage">
                </div>
             <hr />
-            <div class="commentArea">
+            <div class="commentArea comment${post.id}">
             ${comments}
             </div>
-            <form  method="POST" data-postId="${post.id}" class="commentForm">
-              <input type="text" placeholder="Add your comment" />
-              <input type="submit" name="Send" value="Send" />
+            <form  method="POST" data-postId="${post.id}" name="comment" class="commentForm">
+              <input type="text" name="text" placeholder="Add your comment" />
+              <input type="submit"  name="Send" value="Send" />
             </form>
           </div>`)
+          $(`.comment${post.id}`).animate({ scrollTop: $(`.comment${post.id}`).height() * 100000}, 1000);
             })  
-          // let allpost = document.querySelectorAll('.myPost')
-          // console.log(allpost[0].dataset.id)
 }
 
 
@@ -80,7 +80,7 @@ function userPost(userPost,firstName,lastName)
                         <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
                         <p>User:${item.user.firstName}<p>
                         <p> ${item.body.slice(0,20)}... </p>
-                        <p>At: ${item.createdAt.split(/[a-zA-Z.]/)[1]} <p>
+                        <p>At: ..... <p>
                        </button>
                       </div>`
                     )
@@ -164,20 +164,63 @@ const renderFriendSuggestion = () => {
 };
 
 // let addFriend = document.querySelector('#myfriend')
+// function addFriend( id ) {
+//   if (event.target.id === "add") {
+//     axios
+//       .post("api/friend/addfriend", {
+//         userUuid: document.cookie.split("=")[1],
+//         friendUuid: id,
+//       })
+//       .then(() => {
+//         renderFriendSuggestion();
+//         renderMyFriends();
+//       })
+//       .catch((err) => console.error(err));
+//   }
+// }
+
 function addFriend( id ) {
-  if (event.target.id === "add") {
-    axios
-      .post("api/friend/addfriend", {
-        userUuid: document.cookie.split("=")[1],
-        friendUuid: id,
-      })
-      .then(() => {
-        renderFriendSuggestion();
-        renderMyFriends();
-      })
-      .catch((err) => console.error(err));
-  }
+  axios
+    .post("api/friend/addfriend", {
+      userUuid: document.cookie.split("=")[1],
+      friendUuid: id,
+    })
+    .then(() => {
+      renderFriendSuggestion();
+      renderMyFriends();
+      document.getElementById("friends").innerHTML = `
+      <section class="myFriends">
+        <div>My current friends</div>
+        <div class="user" data-uid="" id="friendList">
+          <!-- <button>User 1</button> -->
+        </div>
+      </section>
+      <!-- add friend button -->
+      <section class="addFriends">
+        <div>Add new friends</div>
+        <div class="user"  id="friendSuggest">
+          <!-- <button>+ hoyeon</button> -->
+        </div>
+      </section>
+      `;
+    })
+    .catch((err) => console.error(err));
 }
+
+$('#searchFriendForm').submit((e) => {
+  e.preventDefault()
+  let friend = document.getElementById('searchFriend').value
+  axios.post('/api/searchFriend', { firstName : friend })
+    .then(({data}) => {
+      document.getElementById('friends').innerHTML = data.reduce((acc, friend) => {
+        acc += `<div>${friend.firstName}<button onclick="addFriend('${friend.uuid}')">Add Friend</button></div>`;
+        return acc
+      }, '')
+
+    })
+    .catch(err => {console.log(err)})
+  }
+)
 
 //delete a friend from myfriendList - hoyeon
 function unFriend(id) {
@@ -211,9 +254,126 @@ const renderMyFriends = () => {
     .catch((err) => console.log(err));
 };
 
+// Generate comment
+function generateComment(commId,user,value,time)
+{
+  $(`${commId}`).append(`<p>${user}: ${value} <span class="time">${time}</span></p>`)
+}
 
 // Add comment
-// document.getElementById('')
+document.addEventListener('submit', event =>
+{
+    event.preventDefault()
+    if(event.target.name === 'comment')
+    {
+   if (!document.cookie.split("=")[1]) {
+    } else {
+      axios
+        .get(`/api/users/info/${document.cookie.split("=")[1]}`)
+        .then(({data}) => {
+          console.log(Date())
+          let body = {username: (data.UserInfo.FirstName +" "+ data.UserInfo.LastName[0]), title: event.target.text.value, postId : event.target.dataset.postid}
+          axios.post('api/comments',body)
+          .then((message ) => {
+            socket.emit('Update', ['comment',`.comment${event.target.dataset.postid}`,`<p>${message.data.username} : ${message.data.title} <span class="time">${message.data.time}</span></p>`] )
+            event.target.text.value = ''
+            $(`.comment${event.target.dataset.postid}`).animate({ scrollTop: $(`.comment${event.target.dataset.postid}`).height() * 100000}, 1000);
+          })
+          .catch(err => console.error(err))
+        }
+        )
+        .catch(err => console.error(err))
+      }
+   
+    }
+   
+    
+})
+
+
+// Pravin - 
+document.getElementById('dropdown').addEventListener('click', event =>
+{
+  event.preventDefault()
+  console.log(event.target.value)
+  if(event.target.value === 'home')
+  {
+    loggedInStatus()
+    $('.postarea').show()
+    $('.main').scrollTop(0)
+  }
+
+  if(event.target.value === 'recentpost')
+  {
+    recentPostsMobile()
+    $('.main').scrollTop(0)
+  }
+
+  if(event.target.value === 'friends')
+  {
+    $('.postarea').hide()
+    axios.get(`/api/users/info/${document.cookie.split("=")[1]}`)
+    .then(({ data }) => {
+      let friendData = data.UserFriends;
+      $('.main').empty()
+      $('.main').innerHTML = "";
+      for (let i = 0; i < friendData.length; i++) {
+        let friendElem = document.createElement("div");
+        friendElem.innerHTML = `<div class="friendbox"><button class='myfriendmobileview'> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
+       $('.main').append(friendElem)
+      }
+    })
+    .catch((err) => console.log(err));
+    // $('.main').scrollTop(0)
+  }
+
+  if(event.target.value === 'logout')
+  {
+    logOut()
+  }
+  
+})
+
+// function 
+
+function recentPostsMobile() {
+  axios.get(`api/posts/friendrecentposts/${document.cookie.split("=")[1]}`)
+        .then( ({data}) =>
+            {
+                // console.log(data)
+                $('.main').empty()
+                $('.main').prepend(data.reduce((acc,posts) =>
+                {
+                    console.log(posts)
+                  acc +=  `  <div class="" data-postid='${posts.id}'>
+                  <button onclick=showPost('${posts.id}','${posts.user.firstName}','${posts.user.lastName}')>
+                  <p>User:${posts.user.firstName}<p>
+                  <p> ${posts.body.slice(0,20)}... </p>
+                  <p>At: ${posts.time} <p>
+                 </button>
+                </div>`
+                return acc
+                },''))
+              })}
+
+
+//                 // data.forEach(item => {
+//                 //     console.log(item)
+//                 //     $(".postlist").prepend(
+//                 //         `  <div class="userpost" data-postid='${item.id}'>
+//                 //         <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
+//                 //         <p>User:${item.user.firstName}<p>
+//                 //         <p> ${item.body.slice(0,20)}... </p>
+//                 //         <p>At: ${item.createdAt.split(/[a-zA-Z.]/)[1]} <p>
+//                 //        </button>
+//                 //       </div>`
+//                 //     )
+//                 // });
+              
+//             }
+//         )
+//         .catch(err => console.error(err))
+//   }
 
 // const logOut = () => {
 //   console.log("hello");

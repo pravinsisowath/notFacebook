@@ -137,6 +137,8 @@ section{
     position: fixed;
     bottom: 0;
     margin-bottom: 5%;
+    background-color: white;
+    z-index: 12;
 }
 #myFooter p,span
 {
