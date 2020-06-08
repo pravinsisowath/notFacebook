@@ -7,7 +7,6 @@ const socketio = require('socket.io')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 
-
 // Create an express variables
 const express = require('express')
 const { join } = require('path')

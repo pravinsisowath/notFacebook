@@ -13,7 +13,6 @@ $('#searchFriendForm').submit((e) => {
         acc += `<div>${friend.firstName}<button onclick="addFriend('${friend.uuid}')">Add Friend</button></div>`;
         return acc
       }, '')
-      
     })
     .catch(err => {console.log(err)})
   }
