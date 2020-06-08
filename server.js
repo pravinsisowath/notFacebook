@@ -23,12 +23,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
 
+// Telling app to use route in folder routes
+app.use(require("./routes"));
+
 // Start to listening
 io.on("connection", (socket) => {
   // On new user, broardcast to everyone that is online
   socket.on("newUserSignUp", (message) => {
     //Broadcast when a new user signup
-    // console.log(message)
     socket.broadcast.emit("newUserSignUp", message);
   });
 
@@ -50,10 +52,6 @@ io.on("connection", (socket) => {
 
 // Create a PORT variable equal to whatever port that existed in the enviroment or 3000
 const PORT = process.env.PORT || 3000;
-
-// Telling app to use route in folder routes
-app.use(require("./routes"));
-
 // Create connection (instead of using app.listen, we now can use server.listen and we still can get the same result)
 require("./connection")
   .sync({ force: false })

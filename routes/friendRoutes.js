@@ -20,7 +20,6 @@ router.get("/friend/myfriend/:userUuid", (req, res) => {
     .then(async (data) => {
       // Turn data into an array
       data = await JSON.parse(JSON.stringify(data[0]));
-
       // Now data is an array, we can loop through and filter out an object that we want
       data = data.friends.map((val) => {
         return {
@@ -32,7 +31,6 @@ router.get("/friend/myfriend/:userUuid", (req, res) => {
           id: val.uuid,
         };
       });
-
       // Return data back to user
       res.json(data);
     })
@@ -97,19 +95,19 @@ router.delete("/friend/unfriend", (req, res) => {
     .catch((err) => console.error(err));
 });
 
-// Friend request
-router.post("/friend/request", (req, res) => {
-  FriendReq.create(req.body)
-    .then(() => res.sendStatus(200))
-    .catch(() => res.json("Pending"));
-});
+// // Friend request
+// router.post("/friend/request", (req, res) => {
+//   FriendReq.create(req.body)
+//     .then(() => res.sendStatus(200))
+//     .catch(() => res.json("Pending"));
+// });
 
-function deleteRequest(requester, requestee) {
-  FriendReq.destroy({
-    where: { requesterId: requester, requesteeId: requestee },
-  })
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-}
+// function deleteRequest(requester, requestee) {
+//   FriendReq.destroy({
+//     where: { requesterId: requester, requesteeId: requestee },
+//   })
+//     .then(() => res.sendStatus(200))
+//     .catch((err) => console.error(err));
+// }
 
 module.exports = router;

@@ -15,7 +15,6 @@ router.get("/posts/friendrecentposts/:userUuid", (req, res) => {
     .then(async (data) => {
       // Turn data into an array
       data = await JSON.parse(JSON.stringify(data[0]));
-
       // Now data is an array, we can loop through and filter out an object that we want
       data = data.friend.map((val) => {
         return val.uuid;
@@ -68,7 +67,6 @@ router.get("/posts/getpost/:postId", (req, res) => {
 router.post("/posts/addpost", async (req, res) => {
   let id = req.rawHeaders.findIndex((item) => item === "Cookie");
   id = req.rawHeaders[id + 1].split(/[\=;" "]/);
-  console.log(req);
   let temp;
   let uuid;
   id.map((val, key) => {
