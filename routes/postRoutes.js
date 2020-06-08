@@ -64,10 +64,10 @@ router.get('/posts/getpost/:postId', (req, res) => {
 
 // Add a Post - - Inprogress (Working on getting the image work)
 router.post('/posts/addpost', async (req, res) =>{
-    
+  
     let id = req.rawHeaders.findIndex((item) => (item === 'Cookie'))
     id = req.rawHeaders[id + 1].split(/[\=;" "]/)
-
+    console.log(req)
     let temp 
     let uuid
     id.map((val,key) => {
@@ -101,14 +101,12 @@ router.post('/posts/addpost', async (req, res) =>{
     }
     
         path = ((check)? path : '#')
-     let body = {userUuid: uuid , body: req.body.posttext , image : path , time : `On ${moment().format(`l LT`)}`}
+     let body = {userUuid: uuid , body: req.body.posttext , image : path , time : `On ${req.body.time}`}
     
  
     Post.create(body)
     .then((data) => {
         data.dataValues.comments = []
-        // console.log(data.dataValues.comments = [])
-        // res.json(data)
         User.findOne({ where : { uuid : uuid }, attributes : ['firstName', 'lastName']})
         .then(({firstName,lastName}) => {
 

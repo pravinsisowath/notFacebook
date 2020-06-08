@@ -10,6 +10,13 @@ router.get('/users/:username/:password/login', (req, res) => {
     .catch(err => console.error(err))
 })
 
+// Find one user - Tim
+// User Login - done (Tim)
+router.get('/users/:id/login', (req, res) => {
+    User.findOne({ where : { uuid : req.params.id}})
+    .then(data => (data === null)? res.sendStatus(404) : res.sendStatus(200))
+    .catch(err => console.error(err))
+})
 // Get all user info - Done (Tim)
 router.get('/users/info/:userid', (req, res) => {
   
@@ -39,7 +46,6 @@ router.get('/users/info/:userid', (req, res) => {
     })
     .then(async data => {
         data = await JSON.parse(JSON.stringify(data))
-        console.log(data)
         let userInfo =  {FirstName : data[0].firstName, LastName : data[0].lastName, Age : data[0].age, Email : data[0].email, Gender: data[0].gender}
         let post = data[0].posts
         let friends = data[0].friend.map(val => {return {firstName : val.firstName, lastName : val.lastName, Age : val.age, Email : val.email, Gender: val.gender, Id : val.uuid}})

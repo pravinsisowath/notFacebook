@@ -7,6 +7,6 @@ const Sequelize = require('sequelize')
       logging:  true //false
     });
 
-// const sequelize = new Sequelize( 'mysql://root:Summer09!2MSQL@localhost:3306/notfacebook_db' )
+// const sequelize = new Sequelize( process.env.LOCAL_URL )
 
 module.exports = sequelize
