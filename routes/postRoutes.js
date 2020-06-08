@@ -26,7 +26,7 @@ router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
             let temp = []
             object = object.map( value =>  ( parseInt(JSON.stringify(value).split(/[\:}]/)[1])))
             object.sort((a,b) => a.id - b.id)
-            Post.findAll({ where : { id : {[Op.in] : object }}, attributes : ["id", "body", "createdAt"],
+            Post.findAll({ where : { id : {[Op.in] : object }}, attributes : ["id", "body", "time"],
             include : [{model : User, attributes : ["firstName", "lastName"]}]
         })
             .then(post => res.json(post))
@@ -43,36 +43,31 @@ router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
 // Find all posts - Done (Tim)
 router.get('/posts/findall/:userUuid', (req, res) => {
 
-    User.findOne({ where : {uuid : req.params.userUuid }})
-    .then(()=> 
+    Post.findAll({ where : {userUuid : req.params.userUuid }, include : [Comment]})
+    .then((data)=> 
     {
-        Post.findAll({include : [Comment]})
-    .then(data => res.json(data))
-    .catch(err => console.error(err))
+        res.json(data)
     })
     .catch(err => console.log(404))
   
 })
 
 // Get a post - Done (Tim)
-router.get('/posts/getpost/:postId/:userUuid', (req, res) => {
-    User.findOne({ where : {uuid : req.params.userUuid }})
-    .then(()=> 
+router.get('/posts/getpost/:postId', (req, res) => {
+    Post.findOne({ where : {id : req.params.postId }, include : [Comment]})
+    .then((data)=> 
     {
-        Post.findOne({ where : {id : req.params.postId}, include : [Comment] })
-        // User.findOne({ where : {}})
-        .then(data => res.json(data))
-        .catch(err => console.error(404))
+       res.json(data)
     })
     .catch(err => console.log(404))
 })
 
 // Add a Post - - Inprogress (Working on getting the image work)
 router.post('/posts/addpost', async (req, res) =>{
-    
+  
     let id = req.rawHeaders.findIndex((item) => (item === 'Cookie'))
     id = req.rawHeaders[id + 1].split(/[\=;" "]/)
-
+    console.log(req)
     let temp 
     let uuid
     id.map((val,key) => {
@@ -106,14 +101,12 @@ router.post('/posts/addpost', async (req, res) =>{
     }
     
         path = ((check)? path : '#')
-     let body = {userUuid: uuid , body: req.body.posttext , image : path }
+     let body = {userUuid: uuid , body: req.body.posttext , image : path , time : `On ${req.body.time}`}
     
  
     Post.create(body)
     .then((data) => {
         data.dataValues.comments = []
-        // console.log(data.dataValues.comments = [])
-        // res.json(data)
         User.findOne({ where : { uuid : uuid }, attributes : ['firstName', 'lastName']})
         .then(({firstName,lastName}) => {
 

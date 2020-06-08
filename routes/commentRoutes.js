@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const moment = require('moment')
 const { Comment } = require("../models");
 
 
@@ -6,7 +7,7 @@ const { Comment } = require("../models");
 router.post("/comments", (req, res) => {
   Comment.create(req.body)
     .then((data) => {
-      res.sendStatus(200);
+      res.json(data);
     })
     .catch((err) => console.error(err));
 });

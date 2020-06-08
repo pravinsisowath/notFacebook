@@ -10,7 +10,7 @@ User.belongsToMany(User, { as: 'Requesters', through: 'friendrequests', foreignK
 
 User.hasMany(Post, {foreignKey: {allowNull: false, onDelete: 'CASCADE'}})
 Post.belongsTo(User)
-Post.hasMany(Comment)
+Post.hasMany(Comment,{foreignKey: {allowNull: false, onDelete: 'CASCADE'}})
 Comment.belongsTo(Post)
 
 

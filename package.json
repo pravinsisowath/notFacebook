@@ -31,5 +31,11 @@
     "sequelize": "^5.21.11",
     "socket.io": "^2.3.0"
   },
-  "description": ""
+  "description": "",
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  },
+  "engines": {
+    "node": "10.x"
+  }
 }
