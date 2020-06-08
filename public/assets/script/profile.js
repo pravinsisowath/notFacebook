@@ -7,9 +7,6 @@ const logOut = () => {
     utcDate.setHours(utcDate.getHours());
     var usDate = new Date(utcDate);
     document.cookie = `name=''; expires = ${usDate.toUTCString()}`; 
-    // axios.get('/')
-    // .then(()=>{})
-    // .catch(err => console.error(err))
     setTimeout(() => {
       window.location.replace("/");
       }, 1000);
@@ -23,6 +20,10 @@ function loggedInStatus () {
     axios
       .get(`/api/users/info/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
+        if(!data)
+        {
+          logOut()
+        }
           $('.main').empty()
           userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName,'')
           generateRecentPost()
@@ -32,7 +33,7 @@ function loggedInStatus () {
               `;
 
       })
-      .catch((err) => console.log(err));
+      .catch((err) => { console.error(err)});
   }
 }
 

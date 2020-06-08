@@ -25,10 +25,11 @@ router.get("/friend/myfriend/:userUuid", (req, res) => {
 });
 
 // Alan
-router.post("/searchFriend", (req, res) => {
+router.get("/searchFriend", (req, res) => {
   User.findAll({ where: { firstName: req.body.firstName } })
     .then((data) => res.json(data))
     .catch((err) => console.error(err));
+
 });
 
 // Find all user that not your friend - Done (Tim)
