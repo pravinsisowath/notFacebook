@@ -26,7 +26,7 @@ router.get('/posts/friendrecentposts/:userUuid', (req, res) => {
             let temp = []
             object = object.map( value =>  ( parseInt(JSON.stringify(value).split(/[\:}]/)[1])))
             object.sort((a,b) => a.id - b.id)
-            Post.findAll({ where : { id : {[Op.in] : object }}, attributes : ["id", "body", "createdAt"],
+            Post.findAll({ where : { id : {[Op.in] : object }}, attributes : ["id", "body", "time"],
             include : [{model : User, attributes : ["firstName", "lastName"]}]
         })
             .then(post => res.json(post))
@@ -101,7 +101,7 @@ router.post('/posts/addpost', async (req, res) =>{
     }
     
         path = ((check)? path : '#')
-     let body = {userUuid: uuid , body: req.body.posttext , image : path }
+     let body = {userUuid: uuid , body: req.body.posttext , image : path , time : `On ${moment().format(`l LT`)}`}
     
  
     Post.create(body)
