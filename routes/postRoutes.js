@@ -19,7 +19,6 @@ router.get("/posts/friendrecentposts/:userUuid", (req, res) => {
       data = data.friend.map((val) => {
         return val.uuid;
       });
-
       Post.findAll({
         where: { userUUid: { [Op.in]: data } },
         attributes: [Sequelize.fn("MAX", Sequelize.col("id"))],
@@ -105,7 +104,6 @@ router.post("/posts/addpost", async (req, res) => {
     image: path,
     time: `On ${req.body.time}`,
   };
-
   Post.create(body)
     .then((data) => {
       data.dataValues.comments = [];

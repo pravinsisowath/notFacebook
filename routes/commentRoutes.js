@@ -4,6 +4,7 @@ const { Comment } = require("../models");
 
 // Add a comment to a post - Done (Tim)
 router.post("/comments", (req, res) => {
+  req.body.time = `On ${moment().format('l LT')}`
   Comment.create(req.body)
     .then((data) => {
       res.json(data);

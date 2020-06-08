@@ -49,7 +49,6 @@ io.on("connection", (socket) => {
     io.emit("userleft", "User has left!");
   });
 });
-
 // Create a PORT variable equal to whatever port that existed in the enviroment or 3000
 const PORT = process.env.PORT || 3000;
 // Create connection (instead of using app.listen, we now can use server.listen and we still can get the same result)

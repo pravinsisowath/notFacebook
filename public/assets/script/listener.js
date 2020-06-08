@@ -82,7 +82,7 @@ socket.on("Update", (message) => {
     });
     // if(document.cookie.split("=")[1] === message[1])
     // {
-
     // }
   }
 });
+

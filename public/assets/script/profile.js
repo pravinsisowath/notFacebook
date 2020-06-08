@@ -282,7 +282,6 @@ document
       }
     }, 1000);
   });
-
 //delete a friend from myfriendList - hoyeon
 function unFriend(id) {
   axios
@@ -336,7 +335,6 @@ let friendWall = (id) => {
     .catch((err) => console.log(err));
 };
 
-// Generate comment
 function generateComment(commId, user, value, time) {
   $(`${commId}`).append(
     `<p>${user}: ${value} <span class="times">( On ${time} )</span></p>`
@@ -484,6 +482,7 @@ let sessionSet = async (data) => {
     window.location.replace("/");
   }
 };
+
 
 window.addEventListener("focus", (event) => {
   sessionSet(document.cookie.split("=")[1]);

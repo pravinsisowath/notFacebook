@@ -655,10 +655,10 @@ input[type="file"] {
   .commentForm input[type="text"] {
     width: 75%;
   }
-
   .commentForm input[type="submit"] {
     width: 15%;
     padding: 1%;
     border-radius: 10px;
   }
 }
+
