@@ -103,7 +103,7 @@ function back() {
           ""
         );
         document.getElementById("loggedIn").innerHTML = `
-              Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
+              Welcome, ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
               `;
       })
@@ -229,27 +229,27 @@ function addFriend(id) {
       friendUuid: id,
     })
     .then(() => {
-      renderFriendSuggestion();
-      renderMyFriends();
-      generateRecentPost();
       socket.emit("Update", ["addfriend", `${id}`]);
       document.getElementById("friends").innerHTML = `
       <section class="myFriends">
-        <div>My current friends</div>
-        <div class="user" data-uid="" id="friendList">
-          <!-- <button>User 1</button> -->
-        </div>
+      <div>My current friends</div>
+      <div class="user" data-uid="" id="friendList">
+      <!-- <button>User 1</button> -->
+      </div>
       </section>
       <!-- add friend button -->
       <section class="addFriends">
-        <div>Add new friends</div>
-        <div class="user"  id="friendSuggest">
-          <!-- <button>+ hoyeon</button> -->
-        </div>
+      <div>Add new friends</div>
+      <div class="user"  id="friendSuggest">
+      <!-- <button>+ hoyeon</button> -->
+      </div>
       </section>
       `;
     })
     .catch((err) => console.error(err));
+  renderFriendSuggestion();
+  renderMyFriends();
+  generateRecentPost();
 }
 
 // search and first name of users - alan - hoyeon(6/7/20-11pm) - Tim edited from

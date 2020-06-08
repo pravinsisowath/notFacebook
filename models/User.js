@@ -36,7 +36,7 @@ User.init(
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     activated: {
       type: DataTypes.BOOLEAN,

@@ -33,7 +33,6 @@ document.getElementById("signup").addEventListener("submit", (event) => {
       lastName: event.target.lastName.value,
       age: event.target.age.value,
       email: event.target.email.value,
-      gender: event.target.gender.value,
       activated: 0,
     };
     axios
