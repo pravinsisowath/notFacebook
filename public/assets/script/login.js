@@ -92,8 +92,7 @@ let sessionSet = async (data) =>
     utcDate.setHours(utcDate.getHours() + 1);
     var usDate = await new Date(utcDate);
     document.cookie = await `name=${data}; expires = ${usDate.toUTCString()}` 
-    if(document.cookie.split("=")[
-        1])
+    if(data !== "undefined")
     {
       window.location.replace("/");
     }

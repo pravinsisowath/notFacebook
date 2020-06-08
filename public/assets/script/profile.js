@@ -446,16 +446,15 @@ function deletePost(id)
   
       if(item.dataset.id === `${id}`) 
       {
-        console.log( `here`)
         item.classList.add('delete') 
         item.style.height = '50px'
-        item.innerHTML = '<p></p>'
+        item.innerHTML = ''
         setTimeout(() => {
           item.remove()
           let check = document.querySelectorAll('.main .myPost')
           if(check.length === 0)
           {userPost([],'','','')}
-        }, 2000);
+        }, 1500);
      }
       
     })
@@ -542,7 +541,7 @@ let sessionSet = async (data) =>
     utcDate.setHours(utcDate.getHours() + 1);
     var usDate = await new Date(utcDate);
     document.cookie = await `name=${data}; expires = ${usDate.toUTCString()}` 
-    if(!document.cookie.split("=")[1])
+    if(!data)
     {
       window.location.replace("/");
     }
