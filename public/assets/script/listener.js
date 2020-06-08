@@ -64,13 +64,53 @@ socket.on('Update',message =>
   $(`${message[1]}`).append(message[2])
   $(`${message[1]}`).animate({ scrollTop: $(`${message[1]}`).height() * 100000}, 1000);
   }
-  if(message[0] === 'deletePost')
+
+  if(message[0] === 'deletepost')
   {
     let post = document.querySelectorAll(`${message[1]}`)
     post.forEach(item => {
-    if(item.dataset.id === message[2])
+      console.log( item.dataset.postid)
+    if(item.dataset.postid === message[2])
     {
-      item.css('height : 0px;')
+        generateRecentPost()
     }})
   }
+
+  if(message[0] === 'unfriend')
+  {
+    if(document.cookie.split("=")[1] === message[1])
+    {
+        renderFriendSuggestion()
+        generateRecentPost()
+    }
+  }
+
+  if(message[0] === 'addfriend')
+  {
+    if(document.cookie.split("=")[1] === message[1])
+    {
+      console.log('foundit')
+        renderFriendSuggestion()
+        generateRecentPost()
+    }
+  }
+
+  if(message[0] === 'newpost')
+  {
+    let list = document.querySelectorAll('.friendbox')
+    list.forEach(item =>
+      {
+        if(item.dataset.friendbtn === message[1])
+        {
+          generateRecentPost()
+          // friendWall(item.dataset.friendbtn)
+        }
+      })
+    // if(document.cookie.split("=")[1] === message[1])
+    // {
+
+    // }
+  }
+
+
 })

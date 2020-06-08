@@ -61,7 +61,7 @@
     grid-template-columns: 1fr 3fr 1fr;
     width: 100vw;
     height: 100vh;
-    grid-template-rows: auto minmax(40%, auto) auto;
+    grid-template-rows: auto minmax(40%, auto) 10%;
     grid-template-areas:
       "wrapper1 wrapper1 wrapper1"
       "wrapper2 wrapper2 wrapper2"
@@ -178,6 +178,7 @@
   .postbody
   {
     /* font-size: 50px; */
+    word-wrap: break-word;
   }
 
   .username
@@ -207,6 +208,15 @@
     border-bottom: 1px solid rgb(1, 8, 1);
   }
   
+  #friendList
+  {
+    gap: 5px;
+  }
+
+  #friendList div
+  {
+    margin-bottom: 10px;
+  }
   /* Wrapper 2 */
   #wrapper2 {
     grid-area: wrapper2;
@@ -229,17 +239,24 @@
     margin-right: 5%;
     text-align: center;
     grid-template-rows: 50% 50%;
+    transition-duration: 3s;
     overflow: scroll;
   }
   
   .postlist::-webkit-scrollbar {
     display: none;
   }
-  
+  .userpost button
+  {
+    transition-duration: 1s;
+  }
+
   .userpost button:hover {
     background-color: #8ea6d66c;
     border-color: #29487dab;
     border: 1px solid #ccd0d5;
+    margin-left: 10%;
+    cursor: pointer;
   }
   
   .main {
@@ -251,6 +268,11 @@
     border-right: 1px solid rgb(1, 8, 1);
     transition-duration: 2s;
     transition: width 2s, height 2s, transform 2s;
+  }
+
+  .main div
+  {
+    transition-duration: 5s;
   }
   
   .delete
@@ -332,7 +354,7 @@
   margin: 5px;
 }
 
-.time
+.times
 {
   font-size: small;
   color: rgba(85, 85, 74, 0.555);
@@ -372,11 +394,13 @@
     grid-area: footer;
     border-top: 1px solid rgb(1, 8, 1);
     text-align: center;
+    /* height: 10px; */
   }
   
   /* User Post */
   .userpost {
     padding: 5px;
+    transition-duration: 3s;
   }
   
   .userpost button {
@@ -384,13 +408,14 @@
     padding: 5px;
     border: 1px solid rgba(7, 1, 1, 0.233);
     box-sizing: border-box;
+    word-wrap: break-word;
     outline: 0;
   }
   
   /* Friends */
   
-  .user {
-    padding: 5px;
+  .user div {
+    margin-bottom: 5px;
   }
   
   .user button {
@@ -405,6 +430,8 @@
     border-color: #29487dab;
     border: 1px solid #ccd0d5;
     background-color: #8ea6d66c;
+    margin-bottom: 2px;
+    cursor: pointer;
   }
   
   /* Upload button */
@@ -417,12 +444,13 @@
     width: 5%;
     height: 30px;
     color: white;
-    background-color: rgb(13, 77, 102);
+    /* background-color: rgb(13, 77, 102); */
     padding: 10px;
     align-items: center;
     border-radius: 10px;
-    background-image: url("/assets/Image/icons8-cute-color-50.png");
+    background-image: url("/assets/Image/image-icon-png-2.png");
     background-repeat: no-repeat;
+    background-size: 100% 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 5px;
@@ -455,14 +483,65 @@
     margin: 0;
   }
 
+  .backHome
+  {
+    display: block;
+    position: sticky;
+    top:0;
+    float: right;
+  }
+
+  .noPost
+  {
+    display: block;
+    justify-content: center;
+    vertical-align: middle;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    font-size: 30px;
+    color: rgba(78, 71, 71, 0.527);
+  }
+
+  .yourposttext
+{
+  color: rgba(78, 71, 71, 0.527);
+  font-size: 30px;
+}
+
+.time
+{
+  display: none;
+}
+#friendSuggest div{
+  margin-bottom: 10px;
+}
+#user
+{
+  margin-bottom: 10px;
+}
+
+#unFriend:hover
+{
+  background-color: rgba(255, 0, 0, 0.521);
+}
+
+#add:hover
+{
+  background-color: rgba(0, 128, 0, 0.603);
+}
   /* Added unfriend and friendbox classes Hoyeon */
   .friendbox {
     display: flex;
   }
   
-  #unFriend {
-    width: fit-content;
-  }
+  /*6/7/20/ updated - hoyeon*/
+#unFriend,
+#add {
+  width: fit-content;
+  transition-duration: .2s;
+}
 
   .deletePost 
 {
@@ -510,17 +589,18 @@
       /* margin: auto; */
     }
 
+    .file
+    {
+      width: 15%;
+    }
     .friendbox
     {
       justify-content: space-around;
       width: 50%;
-      margin:auto;
+      margin-bottom: 5px;
       /* align-items: center; */
     }
-    #unfriend
-    {
-
-    }
+   
     /* Style The Dropdown Button */
     .dropbtn {
       justify-self: baseline;

@@ -10,6 +10,13 @@ router.get('/users/:username/:password/login', (req, res) => {
     .catch(err => console.error(err))
 })
 
+// Find one user - Tim
+// User Login - done (Tim)
+router.get('/users/:id/login', (req, res) => {
+    User.findOne({ where : { uuid : req.params.id}})
+    .then(data => (data === null)? res.sendStatus(404) : res.sendStatus(200))
+    .catch(err => console.error(err))
+})
 // Get all user info - Done (Tim)
 router.get('/users/info/:userid', (req, res) => {
   

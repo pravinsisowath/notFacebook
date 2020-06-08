@@ -9,19 +9,23 @@ document.getElementById('signin').addEventListener('submit', event =>
    
 })
 
-function signIn (val1,val2)
+let signIn = async  (val1,val2) =>
 {
     axios.get(`/api/users/${val1}/${val2}/login`)
-    .then(({data}) => {
-  
+    .then( async ({data}) => {
+        console.log(data)
     if(!data){document.getElementById('loginError').innerHTML = "Wrong username or password, please try again"}
     else{
-        sessionSet(data)
-        window.location.replace('/profile')
+        await sessionSet(data)    
+        setTimeout(() => {
+            window.location.replace("/");
+        }, 1000);
     }
     })
     .catch(err => console.error(err))
 }
+
+
 
 document.getElementById('signup').addEventListener('submit', event =>
 {   
@@ -81,16 +85,21 @@ document.getElementById('email').addEventListener('keyup', event =>
       return(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))
     }
 
-function sessionSet(data)
+let sessionSet = async (data) =>
 {
-    var date = new Date();
-    var utcDate = new Date(date.toUTCString());
+    var date = await new Date();
+    var utcDate = await new Date(date.toUTCString());
     utcDate.setHours(utcDate.getHours() + 1);
-    var usDate = new Date(utcDate);
-    document.cookie = `name=${data}; expires = ${usDate.toUTCString()}` 
+    var usDate = await new Date(utcDate);
+    document.cookie = await `name=${data}; expires = ${usDate.toUTCString()}` 
+    if(document.cookie.split("=")[
+        1])
+    {
+      window.location.replace("/");
+    }
 }
 
-window.addEventListener("blur", event =>
+window.addEventListener("focus", event =>
 {
     sessionSet(document.cookie.split('=')[1])
 });

@@ -1,3 +1,4 @@
+
 const logOut = () => {
     console.log('hello')
     var date = new Date();
@@ -6,8 +7,15 @@ const logOut = () => {
     utcDate.setHours(utcDate.getHours());
     var usDate = new Date(utcDate);
     document.cookie = `name=''; expires = ${usDate.toUTCString()}`; 
-    window.location.replace("/");
+    // axios.get('/')
+    // .then(()=>{})
+    // .catch(err => console.error(err))
+    setTimeout(() => {
+      window.location.replace("/");
+      }, 1000);
+  
     }
+
 
 function loggedInStatus () {
   if (!document.cookie.split("=")[1]) {
@@ -15,9 +23,9 @@ function loggedInStatus () {
     axios
       .get(`/api/users/info/${document.cookie.split("=")[1]}`)
       .then(({ data }) => {
-        
+          $('.main').empty()
+          userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName,'')
           generateRecentPost()
-          userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName)
         document.getElementById("loggedIn").innerHTML = `
               Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
@@ -28,32 +36,57 @@ function loggedInStatus () {
   }
 }
 
-function userPost(userPost,firstName,lastName)
+function userPost(userPost,firstName,lastName,type)
 { 
+    if(userPost.length === 0 && (type === 'friend' || type === 'friendWall')  )
+    {
+      $('.main').append(`<h1 class="noPost">This user has no post</h1>`) 
+    }
+    if(userPost.length === 0 && type === ''  )
+    {
+      $('.main').append(`<h1 class="noPost yourposttext">Do you want to post your first post?</h1>`) 
+    }
     userPost.forEach(post => { 
         // console.log("In userpost")
         // console.log(post)
         let comments = post.comments.reduce((allComments, comments) =>
         {
-          console.log(comments)
             return allComments +=  
-            `<p>${comments.username} : ${comments.title} <span class="time">${comments.time}</span></p>`
+            `<p>${comments.username} : ${comments.title} <span class="times">( On ${comments.time} )</span></p>`
           
             
             // console.log(comments)
         }
         ,'')
 
+        let button 
+        if(type === 'friend')
+        {         
+          button = ''
+        }
+        else if(type === 'friendWall')
+        {
+          button = ''
+        }
+        else
+        {
+          // $('.backHome').remove()
+          button = `<button class="deletePost" name = "delete" onclick=deletePost(${post.id})>Delete | x</button>`
+        }
+        let image = ''
+        if(post.image !== '#')
+        {
+          image = `<img src="${post.image}" alt="" class="postImage"></img>`
+        }
         $('.main').prepend(
             `     
             <div class="myPost" data-id="${post.id}">
-            <button class="deletePost" name = "delete" data-deleteid ="${post.id}">Delete | x</button>
+            ${button}
             <h3 class ="username"> ${firstName} ${lastName} : <span class ="postbody">${post.body}</span></h3>
             
             <div class="image"> 
-            <img src="${post.image}" alt="" class="postImage">
+            ${image}
                </div>
-            <hr />
             <div class="commentArea comment${post.id}">
             ${comments}
             </div>
@@ -62,26 +95,49 @@ function userPost(userPost,firstName,lastName)
               <input type="submit"  name="Send" value="Send" />
             </form>
           </div>`)
-          $(`.comment${post.id}`).animate({ scrollTop: $(`.comment${post.id}`).height() * 100000}, 1000);
+          $(`.comment${post.id}`).animate({ scrollTop: $(`.comment${post.id}`).height() * 10000}, 1000);
             })  
+
+            if(type === "friend")
+            {
+              $('.main').prepend(`<button class="backHome"  onclick=back()>HOME</button>`)
+            }
 }
 
+// Tim 06/08 
+function back () {
+  if (!document.cookie.split("=")[1]) {
+  } else {
+    axios
+      .get(`/api/users/info/${document.cookie.split("=")[1]}`)
+      .then(({ data }) => {
+          $('.main').empty()
+          userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName,'')
+          document.getElementById("loggedIn").innerHTML = `
+              Logged in as ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
+              <button id='logOut' onclick='logOut()'>Log Out</button>
+              `;
+
+      })
+      .catch((err) => console.log(err));
+  }
+}
 
   // Tim recent friend post
   function generateRecentPost()
   {
+         $(".postlist").empty()
         axios.get(`api/posts/friendrecentposts/${document.cookie.split("=")[1]}`)
         .then( ({data}) =>
             {
 
                 data.forEach(item => {
-                    console.log(item)
                     $(".postlist").prepend(
                         `  <div class="userpost" data-postid='${item.id}'>
                         <button onclick=showPost('${item.id}','${item.user.firstName}','${item.user.lastName}')>
                         <p>User:${item.user.firstName}<p>
-                        <p> ${item.body.slice(0,20)}... </p>
-                        <p>At: ..... <p>
+                        <p> ${item.body.slice(0,40)}... </p>
+                        <p>${item.time} <p>
                        </button>
                       </div>`
                     )
@@ -99,7 +155,7 @@ function showPost(data,fname,lname)
     .then(({data}) => 
       {
         $('.main').empty()
-        userPost([data],fname,lname)
+        userPost([data],fname,lname,'friend')
       }
     )
     .catch(err => console.error(err))
@@ -107,20 +163,41 @@ function showPost(data,fname,lname)
 
 // Add new post
 let recent = false
-document.getElementById('post').addEventListener('click', event =>
+document.getElementById('post').addEventListener('click', async event =>
 {
   event.preventDefault()
-
+  let now = await new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+  $('.time').val(`${now}`)
   let formData = new FormData(document.getElementById('POSTIT'))
-  // formData.append('files', )
+ 
   if(document.getElementById('file').value.length > 0 || document.getElementById('posttext').value !== '')
   {
-  axios.post('api/posts/addpost', formData)
+    axios.post('api/posts/addpost', formData)
   .then(({ data }) => {
     if(!recent)
     {
       $('.main').scrollTop(0)
-      userPost([data[0].data],data[1].firstName,data[1].lastName)
+      $('.backHome').remove()
+      let check = document.querySelectorAll('.main .myPost')
+      if(check.length === 0)
+      {$('.main').empty()}
+
+      let found = false
+      check.forEach(item =>
+        {
+         if(item.name !== 'delete')
+         {
+           if(item.children[0].name !== 'delete')
+           {
+             item.remove()
+             found = true
+           }
+         }
+        })
+       
+        if(found) { back() }
+        else {  userPost([data[0].data],data[1].firstName,data[1].lastName,'') }
+        socket.emit('Update',['newpost',`${document.cookie.split("=")[1]}`])
     }
     else
     {
@@ -129,8 +206,6 @@ document.getElementById('post').addEventListener('click', event =>
   
   })
   .catch(err => console.error(err))
-  
-  // console.log(formData)
 
   document.getElementById('file').value = null
   document.getElementById('posttext').value = ''
@@ -143,9 +218,8 @@ document.getElementById('posttext').focus()
 // Add friend on click
 
 
-// //show a list of other users who are not friends yet with me - hoyeon
+// //show a list of other users who are not friends yet with me - hoyeon(6/7/20-11pm)
 const renderFriendSuggestion = () => {
-
   if (!document.cookie.split("=")[1]) {
     console.log("Not logged in");
   } else {
@@ -155,7 +229,7 @@ const renderFriendSuggestion = () => {
         document.getElementById("friendSuggest").innerHTML = "";
         for (let i = 0; i < data.length; i++) {
           let notfriendElem = document.createElement("div");
-          notfriendElem.innerHTML = `<button id='add'  onclick=addFriend('${data[i].uuid}') > + ${data[i].firstName} ${data[i].lastName}</button>`;
+          notfriendElem.innerHTML = `<div class="friendbox" data-friendbtn='${data[i].uuid}'><button> ${data[i].firstName} ${data[i].lastName}</button><button id='add' onclick=addFriend('${data[i].uuid}')><span>➕</span></button></div>`;
           document.getElementById("friendSuggest").append(notfriendElem);
         }
       })
@@ -163,6 +237,7 @@ const renderFriendSuggestion = () => {
   }
   renderMyFriends();
 };
+
 
 // let addFriend = document.querySelector('#myfriend')
 // function addFriend( id ) {
@@ -189,6 +264,8 @@ function addFriend( id ) {
     .then(() => {
       renderFriendSuggestion();
       renderMyFriends();
+      generateRecentPost();
+      socket.emit('Update',['addfriend',`${id}`])
       document.getElementById("friends").innerHTML = `
       <section class="myFriends">
         <div>My current friends</div>
@@ -208,20 +285,61 @@ function addFriend( id ) {
     .catch((err) => console.error(err));
 }
 
-$('#searchFriendForm').submit((e) => {
-  e.preventDefault()
-  let friend = document.getElementById('searchFriend').value
-  axios.post('/api/searchFriend', { firstName : friend })
-    .then(({data}) => {
-      document.getElementById('friends').innerHTML = data.reduce((acc, friend) => {
-        acc += `<div>${friend.firstName}<button onclick="addFriend('${friend.uuid}')">Add Friend</button></div>`;
-        return acc
-      }, '')
+//search and first name of users - alan - hoyeon(6/7/20-11pm)
+// $("#searchFriendForm").submit((e) => {
+//   e.preventDefault();
+//   let friend = document.getElementById("searchFriend").value;
+//   if (friend !== "") {
+//     axios
+//       .post("/api/searchFriend", { firstName: friend })
+//       .then(({ data }) => {
+//         document.getElementById("friendSuggest").innerHTML = data.reduce(
+//           (acc, friend) => {
+//             acc += `<div class="friendbox"><button style="border:1px solid red"><div> ${friend.firstName} ${friend.lastName}</button><button id='add' onclick=addFriend('${friend.uuid}')><span>➕</span></button></div>`;
+//             return acc;
+//           },
+//           ""
+//         );
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+// });
 
+// search and first name of users - alan - hoyeon(6/7/20-11pm) - Tim edited from 
+document.getElementById('searchFriendForm').addEventListener('keyup', event =>
+    {
+      console.log(event.key)
+       let time
+       clearInterval(time)
+       time = setTimeout(() => {
+            if(!/\S/.test(document.getElementById('searchFriend').value))
+            {
+              console.log('rerender')
+              renderFriendSuggestion()
+              }
+            else
+            {
+              axios
+                    .post("/api/searchFriend", { firstName: document.getElementById('searchFriend').value })
+                    .then(({ data }) => {
+                      document.getElementById("friendSuggest").innerHTML = data.reduce(
+                        (acc, friend) => {
+                          acc += `<div class="friendbox"><button style="border:1px solid red"><div> ${friend.firstName} ${friend.lastName}</button><button id='add' onclick=addFriend('${friend.uuid}')><span>➕</span></button></div>`;
+                          return acc;
+                        },
+                        ""
+                      );
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+            }
+
+        }, 1000);
+       
     })
-    .catch(err => {console.log(err)})
-  }
-)
 
 //delete a friend from myfriendList - hoyeon
 function unFriend(id) {
@@ -235,6 +353,8 @@ function unFriend(id) {
       .then(() => {
         renderMyFriends();
         renderFriendSuggestion();
+        generateRecentPost()
+        socket.emit('Update',['unfriend',`${id}`])
       })
       .catch((err) => console.error(err));
 }
@@ -248,37 +368,57 @@ const renderMyFriends = () => {
       document.getElementById("friendList").innerHTML = "";
       for (let i = 0; i < friendData.length; i++) {
         let friendElem = document.createElement("div");
-        friendElem.innerHTML = `<div class="friendbox"><button class='myfriend'> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
+        friendElem.innerHTML = `<div class="friendbox" data-friendbtn="${friendData[i].Id}"><button class='myfriend' onclick=friendWall('${friendData[i].Id}')> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
         document.getElementById("friendList").append(friendElem);
       }
     })
     .catch((err) => console.log(err));
 };
 
+// Tim 6/8/20
+let friendWall =  (id) =>
+{
+    $('.main').empty()
+    axios
+      .get(`/api/users/info/${id}`)
+      .then(({ data }) => {
+          
+          userPost(data.UserPost,data.UserInfo.FirstName,data.UserInfo.LastName,'friendWall')
+          $('.main').prepend(`<button class="backHome"  onclick=back()>HOME</button>`)
+        
+      })
+      .catch((err) => console.log(err));
+}
+
+
 // Generate comment
 function generateComment(commId,user,value,time)
 {
-  $(`${commId}`).append(`<p>${user}: ${value} <span class="time">${time}</span></p>`)
+  $(`${commId}`).append(`<p>${user}: ${value} <span class="times">( On ${time} )</span></p>`)
 }
 
 // Add comment
 document.addEventListener('submit', event =>
 {
     event.preventDefault()
-    if(event.target.name === 'comment')
+    if(event.target.name === 'comment' && event.target.text.value.length > 0  || event.target.text.value.replace(/\s/g, '').length > 0)
     {
-   if (!document.cookie.split("=")[1]) {
-    } else {
+     if (document.cookie.split("=")[1] ) {
+   
       axios
         .get(`/api/users/info/${document.cookie.split("=")[1]}`)
         .then(({data}) => {
-          console.log(Date())
-          let body = {username: (data.UserInfo.FirstName +" "+ data.UserInfo.LastName[0]), title: event.target.text.value, postId : event.target.dataset.postid}
+          // (new Date().toLocaleTimeString()); // 11:18:48 AM
+          //---
+          // (new Date().toLocaleDateString()); // 11/16/2015
+
+          let now = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+          let body = {username: (data.UserInfo.FirstName +" "+ data.UserInfo.LastName[0]), title: event.target.text.value, postId : event.target.dataset.postid, time: now}
           axios.post('api/comments',body)
           .then((message ) => {
-            socket.emit('Update', ['comment',`.comment${event.target.dataset.postid}`,`<p>${message.data.username} : ${message.data.title} <span class="time">${message.data.time}</span></p>`] )
+            socket.emit('Update', ['comment',`.comment${event.target.dataset.postid}`,`<p>${message.data.username} : ${message.data.title} <span class="times">( On ${message.data.time} )</span></p>`] )
             event.target.text.value = ''
-            $(`.comment${event.target.dataset.postid}`).animate({ scrollTop: $(`.comment${event.target.dataset.postid}`).height() * 100000}, 1000);
+            // $(`.comment${event.target.dataset.postid}`).scrollTop(1E10)
           })
           .catch(err => console.error(err))
         }
@@ -292,32 +432,39 @@ document.addEventListener('submit', event =>
 })
 
 // Delete post - Tim
-document.addEventListener('click', event =>
+function deletePost(id)
 {
   event.preventDefault()
-  console.log(event.target.name)
+  // console.log(event.target.name)
   if(event.target.name === 'delete')
   {
-    axios.delete(`api/posts/delete/${document.cookie.split("=")[1]}/${event.target.dataset.deleteid}`)
+    axios.delete(`api/posts/delete/${document.cookie.split("=")[1]}/${id}`)
     .then(data => {
       console.log(data)
     let post = document.querySelectorAll('.myPost')
-    post.forEach(item => {if(item.dataset.id === event.target.dataset.deleteid) 
+    post.forEach(item => {
+  
+      if(item.dataset.id === `${id}`) 
       {
+        console.log( `here`)
         item.classList.add('delete') 
         item.style.height = '50px'
         item.innerHTML = '<p></p>'
         setTimeout(() => {
           item.remove()
+          let check = document.querySelectorAll('.main .myPost')
+          if(check.length === 0)
+          {userPost([],'','','')}
         }, 2000);
      }
       
     })
-    socket.emit('Update', ['deletePost',`.myPost`,`${event.target.dataset.deleteid}`] )
+    
+    socket.emit('Update', ['deletepost',`.userpost`,`${id}`] )
     })
     .catch(err => console.error(err))
       }
-})
+}
 
 // Pravin - 
 document.getElementById('dropdown').addEventListener('click', event =>
@@ -326,6 +473,7 @@ document.getElementById('dropdown').addEventListener('click', event =>
   console.log(event.target.value)
   if(event.target.value === 'home')
   {
+    $('.main').empty()
     loggedInStatus()
     $('.postarea').show()
     $('.main').scrollTop(0)
@@ -347,7 +495,8 @@ document.getElementById('dropdown').addEventListener('click', event =>
       $('.main').innerHTML = "";
       for (let i = 0; i < friendData.length; i++) {
         let friendElem = document.createElement("div");
-        friendElem.innerHTML = `<div class="friendbox"><button class='myfriendmobileview'> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
+       
+        friendElem.innerHTML = `<div class="friendbox" data-friendbtn='${friendData[i].Id}'><button class='myfriendmobileview'> ${friendData[i].firstName} ${friendData[i].lastName}</button><button id='unFriend' onclick=unFriend('${friendData[i].Id}')><span>🗑️</span></button></div>`;
        $('.main').append(friendElem)
       }
     })
@@ -384,6 +533,25 @@ function recentPostsMobile() {
                 },''))
               })}
 
+
+              
+let sessionSet = async (data) =>
+{
+    var date = await new Date();
+    var utcDate = await new Date(date.toUTCString());
+    utcDate.setHours(utcDate.getHours() + 1);
+    var usDate = await new Date(utcDate);
+    document.cookie = await `name=${data}; expires = ${usDate.toUTCString()}` 
+    if(!document.cookie.split("=")[1])
+    {
+      window.location.replace("/");
+    }
+}
+
+window.addEventListener("focus", event =>
+{
+    sessionSet(document.cookie.split('=')[1])
+});
 
 //                 // data.forEach(item => {
 //                 //     console.log(item)
