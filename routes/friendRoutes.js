@@ -80,7 +80,6 @@ router.post("/friend/addfriend", (req, res) => {
     { friendUuid: req.body.userUuid, userUuid: req.body.friendUuid },
   ])
     .then((data) => {
-      deleteRequest(req.body.requesterId, req.body.requesteeId);
       res.sendStatus(200);
     })
     .catch((err) => console.error(err));

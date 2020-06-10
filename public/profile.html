@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/assets/css/profile.css" />
-  <title>Document</title>
+  <script defer src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+  crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+  <script defer src="./socket.io/socket.io.js"></script>
+  <script defer src="/assets/script/listener.js"></script>
+  <script defer src="/assets/script/profile.js"></script>
+  <title>Home</title>
+
 </head>
 <body>
   <div id="container">
@@ -16,7 +23,9 @@
           <select name="menu" id="dropdown">
             <option value="home">Home</option>
             <option value="recentpost">Recent Post</option>
-            <option value="friends">Friends</option>
+
+            <!-- <option value="friends">Friends</option> -->
+
             <option value="logout">Log out</option>
           </select>
         </div>
@@ -71,12 +80,7 @@
       <p>Developers: <span>Alan | Pravin | Hoyeon | Tim</span></p>
     </footer>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
-  <script src="./socket.io/socket.io.js"></script>
-  <script src="/assets/script/listener.js"></script>
-  <script src="/assets/script/profile.js"></script>
+
 </body>
 
 </html>

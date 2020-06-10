@@ -170,8 +170,31 @@ body {
 
 .postbody {
   word-wrap: break-word;
+
+  max-width: 90%;
 }
 
+iframe
+{
+  display:grid;
+  max-width: 95%;
+  max-height: 70%;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin: auto;
+  background: black;
+  border-radius: 10px;
+}
+
+iframe:hover
+{
+  cursor: pointer;
+}
+
+:hover
+{
+  z-index: 20;
+}
 .username {
   text-align: center;
 }
@@ -258,7 +281,7 @@ body {
 }
 
 .main div {
-  transition-duration: 5s;
+  transition-duration: 1s;
 }
 
 .delete {
@@ -362,6 +385,13 @@ body {
 .addFriends {
   border-top: 1px solid rgb(1, 8, 1);
   grid-area: addFriends;
+}
+
+
+#searchFriend
+{
+  margin: 16px 0px;
+  cursor: text;
 }
 
 /* Footer */
@@ -643,6 +673,7 @@ input[type="file"] {
   }
   .myPost {
     max-width: 90%;
+    margin-top: 25px;
   }
 
   .textarea {
@@ -660,5 +691,6 @@ input[type="file"] {
     padding: 1%;
     border-radius: 10px;
   }
+
 }
 
