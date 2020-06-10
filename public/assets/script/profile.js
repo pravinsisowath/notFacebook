@@ -1,4 +1,5 @@
 const logOut = () => {
+
   var date = new Date();
   var utcDate = new Date(date.toUTCString());
   utcDate.setHours(utcDate.getHours());
@@ -25,13 +26,14 @@ function loggedInStatus() {
           data.UserInfo.LastName,
           ""
         );
-    
+
         document.getElementById("loggedIn").innerHTML = `
               Welcome, ${data.UserInfo.FirstName} ${data.UserInfo.LastName}
               <button id='logOut' onclick='logOut()'>Log Out</button>
               `;
       })
       .catch((err) => {});
+
   }
   // renderMyFriends();
   // renderFriendSuggestion();
@@ -45,11 +47,13 @@ function userPost(userPost, firstName, lastName, type) {
   if (userPost.length === 0 && type === "") {
     $(".main").append(
       `<h1 class="noPost yourposttext">Do you want to post your first post!</h1>`
+
     );
   }
   userPost.forEach((post) => {
     let comments = post.comments.reduce((allComments, comments) => {
       return (allComments += `<p>${comments.username} : ${comments.title} <span class="times">( ${comments.time} )</span></p>`);
+
     }, "");
 
     let button;
@@ -107,6 +111,7 @@ function back() {
               <button id='logOut' onclick='logOut()'>Log Out</button>
               `;
       })
+
       .catch((err) => {});
   }
 }
@@ -132,6 +137,7 @@ function generateRecentPost() {
       });
     })
     .catch((err) => {});
+
 }
 // Show post
 function showPost(data, fname, lname) {
@@ -142,6 +148,7 @@ function showPost(data, fname, lname) {
       userPost([data], fname, lname, "friend");
     })
     .catch((err) => {});
+
 }
 
 // Add new post
@@ -194,6 +201,8 @@ document.getElementById("post").addEventListener("click", async (event) => {
         }
       })
       .catch((err) => {});
+
+
 
     document.getElementById("file").value = null;
     document.getElementById("posttext").value = "";
@@ -264,6 +273,7 @@ document
             );
           })
           .catch((err) => {});
+
       }
     }, 1000);
   });
@@ -277,6 +287,7 @@ function unFriend(id) {
       },
     })
     .then(() => {
+
       socket.emit("Update", ["unfriend", `${id}`]);
       renderMyFriends();
       renderFriendSuggestion();
@@ -286,6 +297,7 @@ function unFriend(id) {
       renderMyFriends();
       renderFriendSuggestion();
     });
+
 }
 
 //show all users who are currently friends with me- hoyeon
@@ -361,6 +373,7 @@ document.addEventListener("submit", (event) => {
                 "comment",
                 `.comment${event.target.dataset.postid}`,
                 `<p>${message.data.username} : ${message.data.title} <span class="times">( ${message.data.time} )</span></p>`,
+
               ]);
               event.target.text.value = "";
               // $(`.comment${event.target.dataset.postid}`).scrollTop(1E10)
@@ -370,6 +383,7 @@ document.addEventListener("submit", (event) => {
             });
         })
         .catch((err) => {});
+
     }
   }
 });
@@ -400,6 +414,7 @@ function deletePost(id) {
         socket.emit("Update", ["deletepost", `.userpost`, `${id}`]);
       })
       .catch((err) => {});
+
   }
 }
 
@@ -434,6 +449,7 @@ document.getElementById("dropdown").addEventListener("click", (event) => {
         }
       })
       .catch((err) => {});
+
   }
   if (event.target.value === "logout") {
     logOut();
@@ -462,6 +478,7 @@ function recentPostsMobile() {
     });
 }
 
+
 let sessionSet = async (data) => {
   var date = await new Date();
   var utcDate = await new Date(date.toUTCString());
@@ -472,6 +489,7 @@ let sessionSet = async (data) => {
     window.location.replace("/");
   }
 };
+
 
 
 window.addEventListener("focus", (event) => {

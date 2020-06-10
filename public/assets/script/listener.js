@@ -94,6 +94,31 @@ socket.on("Update", (message) => {
 });
 
 
+socket.on("Update", (message) => {
+  if (message[0] === "comment") {
+    $(`${message[1]}`).append(message[2]);
+    $(`${message[1]}`).animate(
+      { scrollTop: $(`${message[1]}`).height() * 100000 },
+      1000
+    );
+  }
+
+  if (message[0] === "deletepost") {
+    let post = document.querySelectorAll(`${message[1]}`);
+    post.forEach((item) => {
+      if (item.dataset.postid === message[2]) {
+        generateRecentPost();
+      }
+    });
+  }
+
+  if (message[0] === "unfriend") {
+    if (document.cookie.split("=")[1] === message[1]) {
+      renderFriendSuggestion();
+      generateRecentPost();
+    }
+  }
+
 function updatePendingList()
 {
 

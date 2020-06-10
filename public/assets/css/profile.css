@@ -170,6 +170,7 @@ body {
 
 .postbody {
   word-wrap: break-word;
+
   max-width: 90%;
 }
 
@@ -385,6 +386,7 @@ iframe:hover
   border-top: 1px solid rgb(1, 8, 1);
   grid-area: addFriends;
 }
+
 
 #searchFriend
 {
@@ -689,5 +691,6 @@ input[type="file"] {
     padding: 1%;
     border-radius: 10px;
   }
+
 }
 
